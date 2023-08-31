@@ -58,9 +58,9 @@ export const CLAIMS: ClaimRequest[] = [
     // Data Group members          = Gitcoin Passport Holders
     // value for each group member = Gitcoin Passport Score
     // request user to prove membership in the group with value > 15, user can reveal more if they want
-    groupId: "0x1cde61966decb8600dfd0749bd371f12",
+    groupId: "0x68dfec7c9ba63c841a85769cc24b48c8",
     claimType: ClaimType.GTE,
-    value: 1, // dhadrien.sismo.eth has a score of 46, eligible. Can reveal more.
+    value: 8, // dhadrien.sismo.eth has a score of 46, eligible. Can reveal more.
     isSelectableByUser: true, // can reveal more than 15 if they want
   },
   // {
