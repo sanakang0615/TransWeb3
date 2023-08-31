@@ -40,7 +40,7 @@ export default function Home() {
               claims={CLAIMS}
               // Signature = user can sign a message embedded in their zk proof
               signature={SIGNATURE_REQUEST}
-              text="Prove With Sismo"
+              text="Sismo로 접속하기"
               // Triggered when received Sismo Connect response from user data vault
               onResponse={async (response: SismoConnectResponse) => {
                 setSismoConnectResponse(response);
