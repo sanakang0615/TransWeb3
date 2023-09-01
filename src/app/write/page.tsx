@@ -7,29 +7,23 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 const { Header, Content } = Layout;
 const { Title, Paragraph, Text } = Typography;
-import { WagmiConfig, createConfig, configureChains } from 'wagmi'
-import { sepolia, taikoTestnetSepolia, baseGoerli, foundry, polygon, optimism, mainnet } from 'wagmi/chains'
-import { publicProvider } from 'wagmi/providers/public'
+
+import { useAccount, useConnect, useEnsName } from 'wagmi'
+import { InjectedConnector } from 'wagmi/connectors/injected'
 
 const MDEditor = dynamic(
   () => import("@uiw/react-md-editor"),
   { ssr: false }
 );
-const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [sepolia, taikoTestnetSepolia, baseGoerli, foundry, mainnet],
-  [publicProvider()],
-)
-
-const config = createConfig({
-  autoConnect: true,
-  publicClient,
-  webSocketPublicClient,
-})
 
 export default function HomePage() {
   const [value, setValue] = useState("**Hello world!!!**");
-  return (
-    <WagmiConfig config={config}>
+  const { address, isConnected } = useAccount()
+  const { data: ensName } = useEnsName({ address })
+  const { connect } = useConnect({
+    connector: new InjectedConnector(),
+  })
+  if (isConnected) return (
       <Layout>
       <Header style={{ 
           display: 'flex',
@@ -53,7 +47,32 @@ export default function HomePage() {
           <Button onClick={() => { window.location.href = "/";}}>등록하기</Button>
         </Row>
       </Layout>
-    </WagmiConfig>
+  );
+  // if not connected
+  return (
+    <Layout>
+    <Header style={{ 
+        display: 'flex',
+        justifyContent: 'space-between', // Separates left and right components
+        alignItems: 'center', // Align items vertically in the center
+      }}>
+        <Title level={5} style={{color: "white"}}>TransWeb3</Title>
+        <Popover placement="bottomLeft" trigger="click" content={
+          <Space direction="vertical">
+            <Text>User</Text>
+            <Button onClick={() => { window.location.href = "/";}}>DISCONNECT</Button>
+          </Space>
+            }>
+              <Avatar size={32} src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+        </Popover>
+      </Header>
+      <Content >
+        <Text>로그인하세요</Text>
+      </Content>
+      <Row align="middle" justify="end">
+        <Button onClick={() => { window.location.href = "/";}}>등록하기</Button>
+      </Row>
+    </Layout>
   );
 }
   
