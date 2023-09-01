@@ -72,36 +72,37 @@ export default function Home() {
       }}>
         <Title level={5} style={{color: "white"}}>TransWeb3</Title>
         {pageState == "init" ? (
-          <SismoConnectButton
-          config={CONFIG}
-          // Auths = Data Source Ownership Requests. (e.g Wallets, Github, Twitter, Github)
-          auths={AUTHS}
-          // Claims = prove group membership of a Data Source in a specific Data Group.
-          // (e.g ENS DAO Voter, Minter of specific NFT, etc.)
-          // Data Groups = [{[dataSource1]: value1}, {[dataSource1]: value1}, .. {[dataSource]: value}]
-          // Existing Data Groups and how to create one: https://factory.sismo.io/groups-explorer
-          claims={CLAIMS}
-          // Signature = user can sign a message embedded in their zk proof
-          signature={SIGNATURE_REQUEST}
-          text="Sismo로 접속하기"
-          // Triggered when received Sismo Connect response from user data vault
-          onResponse={async (response: SismoConnectResponse) => {
-            setSismoConnectResponse(response);
-            setPageState("verifying");
-            const verifiedResult = await fetch("/api/verify", {
-              method: "POST",
-              body: JSON.stringify(response),
-            });
-            const data = await verifiedResult.json();
-            if (verifiedResult.ok) {
-              setSismoConnectVerifiedResult(data);
-              setPageState("verified");
-            } else {
-              setPageState("error");
-              setError(data);
-            }
-          }}
-        />
+          <Button>Connect Wallet</Button>
+        //   <SismoConnectButton
+        //   config={CONFIG}
+        //   // Auths = Data Source Ownership Requests. (e.g Wallets, Github, Twitter, Github)
+        //   auths={AUTHS}
+        //   // Claims = prove group membership of a Data Source in a specific Data Group.
+        //   // (e.g ENS DAO Voter, Minter of specific NFT, etc.)
+        //   // Data Groups = [{[dataSource1]: value1}, {[dataSource1]: value1}, .. {[dataSource]: value}]
+        //   // Existing Data Groups and how to create one: https://factory.sismo.io/groups-explorer
+        //   claims={CLAIMS}
+        //   // Signature = user can sign a message embedded in their zk proof
+        //   signature={SIGNATURE_REQUEST}
+        //   text="Sismo로 접속하기"
+        //   // Triggered when received Sismo Connect response from user data vault
+        //   onResponse={async (response: SismoConnectResponse) => {
+        //     setSismoConnectResponse(response);
+        //     setPageState("verifying");
+        //     const verifiedResult = await fetch("/api/verify", {
+        //       method: "POST",
+        //       body: JSON.stringify(response),
+        //     });
+        //     const data = await verifiedResult.json();
+        //     if (verifiedResult.ok) {
+        //       setSismoConnectVerifiedResult(data);
+        //       setPageState("verified");
+        //     } else {
+        //       setPageState("error");
+        //       setError(data);
+        //     }
+        //   }}
+        // />
         ) : (
           <Space style={{ justifyContent: 'flex-end' }} size="small">
             <Popover placement="bottomLeft" trigger="click" content={
