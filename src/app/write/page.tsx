@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 import { useState } from "react";
 import { useAccount, useConnect, useEnsName } from 'wagmi'
 import { InjectedConnector } from 'wagmi/connectors/injected'
+import { useRouter } from 'next/navigation'
 
 const { Header, Content } = Layout;
 const { Title, Paragraph, Text } = Typography;
@@ -23,6 +24,7 @@ export default function Write() {
   const [form] = Form.useForm();
   const [content, setContent] = useState("");
   const [messageApi, contextHolder] = message.useMessage();
+  const router = useRouter();
 
   const { address, isConnected } = useAccount()
   const { data: ensName } = useEnsName({ address })
@@ -54,13 +56,13 @@ export default function Write() {
   };
 
   return (
-    <Layout>
+    <>
      <Header style={{ 
         display: 'flex',
         justifyContent: 'space-between', // Separates left and right components
         alignItems: 'center', // Align items vertically in the center
       }}>
-        <Title level={5} style={{color: "white"}}>TransWeb3</Title>
+        <Title level={5} style={{color: "white"}} onClick={()=>{router.push("/")}}>TransWeb3</Title>
         <Popover placement="bottomLeft" trigger="click" content={
           <Space direction="vertical">
             <Text>{address}</Text>
@@ -106,6 +108,6 @@ export default function Write() {
       </Form.Item>
       </Form>
       </Content>
-    </Layout>
+    </>
   );
 }

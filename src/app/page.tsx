@@ -7,6 +7,9 @@ import Card from './components/Card';
 const { Header, Content } = Layout;
 const { Title, Paragraph, Text } = Typography;
 import type { TabsProps } from 'antd';
+import { useAccount, useConnect, useEnsName } from 'wagmi'
+import { useRouter } from 'next/navigation'
+
 
 
 
@@ -31,6 +34,10 @@ export default function Home() {
   const [posts, setPosts] = useState([]);
   const [lang, setLang] = useState("ko");
   const [tab, setTab] = useState("trending");
+  const { address, isConnected } = useAccount()
+  const { data: ensName } = useEnsName({ address })
+  const router = useRouter();
+
   const items: TabsProps['items'] = [
     { 
       key: 'trending',
@@ -57,7 +64,7 @@ export default function Home() {
 
 
   return (
-    <Layout>
+    <>
       <Header style={{ 
         display: 'flex',
         justifyContent: 'space-between', // Separates left and right components
@@ -99,7 +106,7 @@ export default function Home() {
           <Space style={{ justifyContent: 'flex-end' }} size="small">
             <Popover placement="bottomLeft" trigger="click" content={
               <Space direction="vertical">
-                <Text>{sismoConnectVerifiedResult && sismoConnectVerifiedResult.auths[1].userId}</Text>
+                <Text>{address}</Text>
                 <Button onClick={() => { window.location.href = "/";}}>DISCONNECT</Button>
               </Space>
             }>
@@ -115,7 +122,7 @@ export default function Home() {
                 { value: 'jp', label: 'Japanese' },
               ]}
             />
-            <Button onClick={() => { sismoConnectVerifiedResult && console.log(sismoConnectVerifiedResult);}}>CREATE</Button>
+            <Button onClick={() => {router.push("/write")}}>CREATE</Button>
           </Space>
         )}
       </Header>
@@ -135,6 +142,6 @@ export default function Home() {
           ))}
         </Row>
       </Content>
-    </Layout>
+    </>
   );
 }
