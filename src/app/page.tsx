@@ -106,7 +106,7 @@ export default function Home() {
           <Space style={{ justifyContent: 'flex-end' }} size="small">
             <Popover placement="bottomLeft" trigger="click" content={
               <Space direction="vertical">
-                <Text>{address}</Text>
+                <Text>{sismoConnectVerifiedResult?.auths[1].userId}</Text>
                 <Button onClick={() => { window.location.href = "/";}}>DISCONNECT</Button>
               </Space>
             }>
