@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Button, Col, Layout, Menu, Row, Typography } from 'antd';
+import { Avatar, Button, Col, Layout, Menu, Popover, Row, Typography, Space, Select } from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 import Card from './components/Card';
 const { Header, Content } = Layout;
-const { Title, Paragraph } = Typography;
+const { Title, Paragraph, Text } = Typography;
+
 
 import {
   SismoConnectButton,
@@ -25,6 +27,7 @@ export default function Home() {
   const [pageState, setPageState] = useState<string>("init");
   const [error, setError] = useState<string>("");
   const [posts, setPosts] = useState([]);
+  const [lang, setLang] = useState("ko");
 
   const getPosts = async(lang: string) => {
     const data = await (await fetch(`https://pwamiide6d7n4t6ue4facnpqcm0cwktf.lambda-url.ap-northeast-2.on.aws?lang=${lang}`)).json();
@@ -32,14 +35,18 @@ export default function Home() {
   }
   
   useEffect(() => {
-    getPosts("ko");
-  }, []);
+    getPosts(lang);
+  }, [lang]);
 
 
   return (
     <Layout>
-      <Header style={{ width: '100%' }}>
-        <Menu theme="dark" mode="horizontal" style={{justifyContent: 'flex-end'}}>
+      <Header style={{ 
+        display: 'flex',
+        justifyContent: 'space-between', // Separates left and right components
+        alignItems: 'center', // Align items vertically in the center
+      }}>
+        <Title level={5} style={{color: "white"}}>TransWeb3</Title>
         {pageState == "init" ? (
           <SismoConnectButton
           config={CONFIG}
@@ -72,14 +79,28 @@ export default function Home() {
           }}
         />
         ) : (
-          <>
-            <Menu.Item key="profile" style={{ color: 'white' }}>Profile</Menu.Item>
-            <Menu.Item key="disconnect">
-              <Button onClick={() => { window.location.href = "/";}}>DISCONNECT</Button>
-          </Menu.Item>
-          </>
+          <Space style={{ justifyContent: 'flex-end' }} size="small">
+            <Popover placement="bottomLeft" trigger="click" content={
+              <Space direction="vertical">
+                <Text>{sismoConnectVerifiedResult && sismoConnectVerifiedResult.auths[1].userId}</Text>
+                <Button onClick={() => { window.location.href = "/";}}>DISCONNECT</Button>
+              </Space>
+            }>
+              <Avatar size={32} src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+            </Popover>
+            <Select
+              defaultValue="korean"
+              style={{ width: 120 }}
+              onChange={(v)=>{setLang(v)}}
+              options={[
+                { value: 'ko', label: 'Korean' },
+                { value: 'fr', label: 'French' },
+                { value: 'jp', label: 'Japanese' },
+              ]}
+            />
+            <Button onClick={() => { sismoConnectVerifiedResult && console.log(sismoConnectVerifiedResult);}}>CREATE</Button>
+          </Space>
         )}
-        </Menu>
       </Header>
       <Content style={{ maxWidth: '1120px', margin: '0 auto' }}>
         <Title level={1} style={{ textAlign: 'center'}}>TransWeb3</Title>
