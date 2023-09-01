@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Sismo Connect Offchain Starter",
+  title: "TransWeb3",
   description: "A starter Next.js repository for Sismo Connect offchain apps",
 };
 
