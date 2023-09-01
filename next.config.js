@@ -1,4 +1,6 @@
 /** @type {import('next').NextConfig} */
+const removeImports = require('next-remove-imports')();
+
 const nextConfig = {
   webpack: (config) => {
     config.resolve.fallback = { "utf-8-validate": false, bufferutil: false };
@@ -9,4 +11,4 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+module.exports = removeImports(nextConfig);
