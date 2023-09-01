@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState } from 'react';
-import { Avatar, Button, Col, Layout, Menu, Popover, Row, Typography, Space, Select } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { Avatar, Button, Col, Layout, Menu, Popover, Row, Typography, Space, Select, Tabs } from 'antd';
+import { RiseOutlined, HistoryOutlined } from '@ant-design/icons';
 import Card from './components/Card';
 const { Header, Content } = Layout;
 const { Title, Paragraph, Text } = Typography;
+import type { TabsProps } from 'antd';
+
 
 
 import {
@@ -28,6 +30,21 @@ export default function Home() {
   const [error, setError] = useState<string>("");
   const [posts, setPosts] = useState([]);
   const [lang, setLang] = useState("ko");
+  const [tab, setTab] = useState("trending");
+  const items: TabsProps['items'] = [
+    { 
+      key: 'trending',
+      label: <><RiseOutlined />Trending</>,
+    },
+    {
+      key: 'latest',
+      label: <><HistoryOutlined />Latest</>,
+    },
+  ];
+
+  const onTabChange = (key: string) => {
+    setTab(key);
+  };
 
   const getPosts = async(lang: string) => {
     const data = await (await fetch(`https://pwamiide6d7n4t6ue4facnpqcm0cwktf.lambda-url.ap-northeast-2.on.aws?lang=${lang}`)).json();
@@ -103,10 +120,13 @@ export default function Home() {
         )}
       </Header>
       <Content style={{ maxWidth: '1120px', margin: '0 auto' }}>
+      {!sismoConnectVerifiedResult && <>
         <Title level={1} style={{ textAlign: 'center'}}>TransWeb3</Title>
         <Paragraph style={{ textAlign: 'center' }}>
         웹3 콘텐츠, 번역해서 읽고 있다면 혼자 보지 말고 올려보세요.  <br /> 글 작성에 대한 NFT를 발급해드리며, 재단의 공식 번역 문서로 사용될 수 있게 돕겠습니다.
         </Paragraph>
+      </>}
+        <Tabs defaultActiveKey="1" items={items} onChange={onTabChange} style={{marginTop: 30}}/>
         <Row gutter={[16, 16]}>
           {posts.map((post) => (
             <Col xs={24} md={12} lg={8} key={post.uid}>
