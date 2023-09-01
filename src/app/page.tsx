@@ -7,9 +7,8 @@ import Card from './components/Card';
 const { Header, Content } = Layout;
 const { Title, Paragraph, Text } = Typography;
 import type { TabsProps } from 'antd';
-import { useAccount, useConnect, useEnsName } from 'wagmi'
+import { useAccount, useConnect, useEnsName, useDisconnect, useNetwork, useSwitchNetwork } from 'wagmi'
 import { useRouter } from 'next/navigation'
-
 
 
 
@@ -26,17 +25,20 @@ import {
 } from "./sismo-connect-config";
 
 export default function Home() {
-  const [sismoConnectVerifiedResult, setSismoConnectVerifiedResult] =
-    useState<SismoConnectVerifiedResult>();
-  const [sismoConnectResponse, setSismoConnectResponse] = useState<SismoConnectResponse>();
-  const [pageState, setPageState] = useState<string>("init");
-  const [error, setError] = useState<string>("");
   const [posts, setPosts] = useState([]);
   const [lang, setLang] = useState("ko");
   const [tab, setTab] = useState("trending");
-  const { address, isConnected } = useAccount()
+  const { address, connector, isConnected } = useAccount()
   const { data: ensName } = useEnsName({ address })
   const router = useRouter();
+  const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
+  const { disconnect } = useDisconnect()
+  const { chain } = useNetwork()
+  const { chains, pendingChainId, switchNetwork } =
+  useSwitchNetwork()
+  const goerliTestnet = useSwitchNetwork({
+    chainId: 5,
+  })
 
   const items: TabsProps['items'] = [
     { 
@@ -71,64 +73,45 @@ export default function Home() {
         alignItems: 'center', // Align items vertically in the center
       }}>
         <Title level={5} style={{color: "white"}}>TransWeb3</Title>
-        {pageState == "init" ? (
-          <Button>Connect Wallet</Button>
-        //   <SismoConnectButton
-        //   config={CONFIG}
-        //   // Auths = Data Source Ownership Requests. (e.g Wallets, Github, Twitter, Github)
-        //   auths={AUTHS}
-        //   // Claims = prove group membership of a Data Source in a specific Data Group.
-        //   // (e.g ENS DAO Voter, Minter of specific NFT, etc.)
-        //   // Data Groups = [{[dataSource1]: value1}, {[dataSource1]: value1}, .. {[dataSource]: value}]
-        //   // Existing Data Groups and how to create one: https://factory.sismo.io/groups-explorer
-        //   claims={CLAIMS}
-        //   // Signature = user can sign a message embedded in their zk proof
-        //   signature={SIGNATURE_REQUEST}
-        //   text="Sismo로 접속하기"
-        //   // Triggered when received Sismo Connect response from user data vault
-        //   onResponse={async (response: SismoConnectResponse) => {
-        //     setSismoConnectResponse(response);
-        //     setPageState("verifying");
-        //     const verifiedResult = await fetch("/api/verify", {
-        //       method: "POST",
-        //       body: JSON.stringify(response),
-        //     });
-        //     const data = await verifiedResult.json();
-        //     if (verifiedResult.ok) {
-        //       setSismoConnectVerifiedResult(data);
-        //       setPageState("verified");
-        //     } else {
-        //       setPageState("error");
-        //       setError(data);
-        //     }
-        //   }}
-        // />
-        ) : (
+        {isConnected ? (
           <Space style={{ justifyContent: 'flex-end' }} size="small">
-            <Popover placement="bottomLeft" trigger="click" content={
-              <Space direction="vertical">
-                <Text>{sismoConnectVerifiedResult?.auths[1].userId}</Text>
-                <Button onClick={() => { window.location.href = "/";}}>DISCONNECT</Button>
-              </Space>
-            }>
-              <Avatar size={32} src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-            </Popover>
-            <Select
-              defaultValue="korean"
-              style={{ width: 120 }}
-              onChange={(v)=>{setLang(v)}}
-              options={[
-                { value: 'ko', label: 'Korean' },
-                { value: 'fr', label: 'French' },
-                { value: 'jp', label: 'Japanese' },
-              ]}
-            />
-            <Button onClick={() => {router.push("/write")}}>CREATE</Button>
+            <img src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" alt="ENS Avatar" />
+            {ensName ? `${ensName} (${address})` : address}
+            {chain && <div>Connected to {chain.name}</div>}
+            {chains.map((x) => (
+        <button
+          disabled={!switchNetwork || x.id === chain?.id}
+          key={x.id}
+          onClick={() => switchNetwork?.(x.id)}
+        >
+          {x.name}
+          {isLoading && pendingChainId === x.id && ' (switching)'}
+        </button>
+      ))}
+            <button onClick={() => disconnect()}>Disconnect</button>
           </Space>
+        ) : (
+          <div>
+            {connectors.map((connector) => (
+              <button
+                disabled={!connector.ready}
+                key={connector.id}
+                onClick={() => connect({ connector })}
+              >
+                {connector.name}
+                {!connector.ready && ' (unsupported)'}
+                {isLoading &&
+                  connector.id === pendingConnector?.id &&
+                  ' (connecting)'}
+              </button>
+            ))}
+       
+            {error && <div>{error.message}</div>}
+          </div>
         )}
       </Header>
       <Content style={{ maxWidth: '1120px', margin: '0 auto' }}>
-      {!sismoConnectVerifiedResult && <>
+      {<>
         <Title level={1} style={{ textAlign: 'center'}}>TransWeb3</Title>
         <Paragraph style={{ textAlign: 'center' }}>
         웹3 콘텐츠, 번역해서 읽고 있다면 혼자 보지 말고 올려보세요.  <br /> 글 작성에 대한 NFT를 발급해드리며, 재단의 공식 번역 문서로 사용될 수 있게 돕겠습니다.
