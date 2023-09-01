@@ -53,16 +53,16 @@ export const CLAIMS: ClaimRequest[] = [
   //   // request user to prove membership in the group
   //   groupId: "0xda1c3726426d5639f4c6352c2c976b87", // impersonated github:dhadrien has 1 contribution, eligible
   // },
-  {
-    // claim Gitcoin Passport Holders Data Group membership: https://factory.sismo.io/groups-explorer?search=0x1cde61966decb8600dfd0749bd371f12
-    // Data Group members          = Gitcoin Passport Holders
-    // value for each group member = Gitcoin Passport Score
-    // request user to prove membership in the group with value > 15, user can reveal more if they want
-    groupId: "0x68dfec7c9ba63c841a85769cc24b48c8",
-    claimType: ClaimType.GTE,
-    value: 8, // dhadrien.sismo.eth has a score of 46, eligible. Can reveal more.
-    isSelectableByUser: true, // can reveal more than 15 if they want
-  },
+  // {
+  //   // claim Gitcoin Passport Holders Data Group membership: https://factory.sismo.io/groups-explorer?search=0x1cde61966decb8600dfd0749bd371f12
+  //   // Data Group members          = Gitcoin Passport Holders
+  //   // value for each group member = Gitcoin Passport Score
+  //   // request user to prove membership in the group with value > 15, user can reveal more if they want
+  //   groupId: "0x68dfec7c9ba63c841a85769cc24b48c8",
+  //   claimType: ClaimType.GTE,
+  //   value: 8, // dhadrien.sismo.eth has a score of 46, eligible. Can reveal more.
+  //   isSelectableByUser: true, // can reveal more than 15 if they want
+  // },
   // {
   //   // claim ENS DAO Voters Data Group membership: https://factory.sismo.io/groups-explorer?search=0x85c7ee90829de70d0d51f52336ea4722
   //   // Data Group members          = voters in ENS DAO
