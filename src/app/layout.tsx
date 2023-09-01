@@ -17,11 +17,6 @@ const config = createConfig({
   webSocketPublicClient,
 })
 
-export const metadata = {
-  title: "TransWeb3",
-  description: "A starter Next.js repository for Sismo Connect offchain apps",
-};
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <WagmiConfig config={config}>
