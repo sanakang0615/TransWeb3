@@ -5,6 +5,9 @@ import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
 import { useState } from "react";
+import { useAccount, useConnect, useEnsName } from 'wagmi'
+import { InjectedConnector } from 'wagmi/connectors/injected'
+
 const { Header, Content } = Layout;
 const { Title, Paragraph, Text } = Typography;
 const { Option } = Select;
@@ -16,9 +19,16 @@ const MDEditor = dynamic(
 );
 
 export default function Write() {
+  
   const [form] = Form.useForm();
   const [content, setContent] = useState("");
   const [messageApi, contextHolder] = message.useMessage();
+
+  const { address, isConnected } = useAccount()
+  const { data: ensName } = useEnsName({ address })
+  const { connect } = useConnect({
+    connector: new InjectedConnector(),
+  })
 
   const createSuccess = () => {
     messageApi.open({
@@ -53,7 +63,7 @@ export default function Write() {
         <Title level={5} style={{color: "white"}}>TransWeb3</Title>
         <Popover placement="bottomLeft" trigger="click" content={
           <Space direction="vertical">
-            <Text>User</Text>
+            <Text>{address}</Text>
             <Button onClick={() => { window.location.href = "/";}}>DISCONNECT</Button>
           </Space>
             }>
