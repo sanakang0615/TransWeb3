@@ -1,5 +1,5 @@
 "use client";
-// import "./globals.css";
+
 import { Inter } from "next/font/google";
 import { WagmiConfig, createConfig, configureChains } from 'wagmi'
 import { sepolia, taikoTestnetSepolia, baseGoerli, foundry, polygon, optimism, mainnet } from 'wagmi/chains'
@@ -16,11 +16,6 @@ const config = createConfig({
   publicClient,
   webSocketPublicClient,
 })
-
-// export const metadata = {
-//   title: "TransWeb3",
-//   description: "A starter Next.js repository for Sismo Connect offchain apps",
-// };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
