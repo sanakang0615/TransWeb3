@@ -1,11 +1,13 @@
 "use client";
 
+import { SearchOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
-import { Avatar, Button, Col, Layout, Menu, Popover, Row, Typography, Space, Select, Tabs } from 'antd';
+import { Input, Avatar, Button, Col, Layout, Menu, Popover, Row, Typography, Space, Select, Tabs } from 'antd';
 import { RiseOutlined, HistoryOutlined } from '@ant-design/icons';
 import Card from './components/Card';
 const { Header, Content } = Layout;
 const { Title, Paragraph, Text } = Typography;
+const { Search } = Input;
 import type { TabsProps } from 'antd';
 import { useRouter } from 'next/navigation';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -73,11 +75,13 @@ export default function Home() {
              */}
           </Space>
       </Header>
+      
       <Content style={{ maxWidth: '1120px', margin: '0 auto' }}>
       {<>
         <Title level={1} style={{ textAlign: 'center'}}>TransWeb3</Title>
         <Paragraph style={{ textAlign: 'center' }}>
-        웹3 콘텐츠, 번역해서 읽고 있다면 혼자 보지 말고 올려보세요.  <br /> 글 작성에 대한 <Text code>NFT</Text>를 발급해드리며, 재단의 공식 번역 문서로 사용될 수 있게 돕겠습니다.
+        웹3 콘텐츠, 번역해서 읽고 있다면 혼자 보지 말고 올려보세요.  <br /> 글 작성에 대한 <Text code>NFT</Text>를 발급해드리며, 재단의 공식 번역 문서로 사용될 수 있게 돕겠습니다.<br /><br />
+        <Search addonBefore="https://" placeholder="url을 입력해보세요." allowClear />
         </Paragraph>
       </>}
         <Tabs defaultActiveKey="1" items={items} onChange={onTabChange} style={{marginTop: 30}}/>
