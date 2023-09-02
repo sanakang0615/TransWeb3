@@ -9,13 +9,13 @@ import { useRouter } from 'next/navigation';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { ethers } from 'ethers';
 import MyERC721Artifact from '../../../../contracts/MyERC721.json'; // ABI를 포함한 컨트랙트 아티팩트를 import합니다.
+import MyERC1155Artifact from '../../../../contracts/MyERC1155.json'; // ABI를 포함한 컨트랙트 아티팩트를 import합니다.
 
 
 
 export default function Post({ params }: { params: { slug: [string, string] } }) {
     const [post, setPost] = useState({})
     const [comment, setComment] = useState('');
-    const [comments, setComments] = useState<string[]>(["This is a hard-coded comment-1", "Another hard-coded comment-2"]);
     const getPost = async(lang: string, reference: string) => {
         const data = await (await fetch(`https://mt3fthybo4agqytt2h77jp4ufq0ertvi.lambda-url.ap-northeast-2.on.aws/?lang=${lang}&reference=${reference}`)).json();
         console.log(data);
@@ -23,13 +23,32 @@ export default function Post({ params }: { params: { slug: [string, string] } })
     }
     const [provider, setProvider] = useState(null);
     const [signer, setSigner] = useState(null);
+    const [signerAddress, setSignerAddress] = useState("");
     const [contract, setContract] = useState(null);
     const router = useRouter();
 
+    const getSignerAddress = async (signer: any) => {
+      const add = await(await signer.getAddress());
+      setSignerAddress(add);
+    }
+
     const handleClaim = async () => {
-      if (contract) {
+      console.log("signer", signerAddress);
+      console.log("author", post?.uid);
+      console.log("contract", contract);
+      if (contract && signerAddress == post?.uid) {
         const tokenURI = "ipfs://bafybeib3rtjvescbhmlhoqcxhch7otbaq64jnhgcu7skzw22mxdcyyf54m/";
         const tx = await contract.mintToken(signer.getAddress(), tokenURI); // mint는 컨트랙트에서 정의한 함수입니다.
+        const receipt = await tx.wait();
+        console.log("receipt", receipt);
+
+        const tokenId = receipt.events
+          .filter((x) => x.event === "Transfer")
+          .map((x) => x.args.tokenId)
+          .toString();
+        console.log("Minted Token ID:", tokenId);
+      } else if (contract && post?.comments?.some(item => item.uid === signerAddress)){
+        const tx = await contract.mintToken(signer.getAddress(), 5); // mint는 컨트랙트에서 정의한 함수입니다.
         const receipt = await tx.wait();
         console.log("receipt", receipt);
 
@@ -47,24 +66,30 @@ export default function Post({ params }: { params: { slug: [string, string] } })
         setProvider(newProvider);
         const newSigner = newProvider.getSigner();
         setSigner(newSigner);
+        getSignerAddress(newSigner);
       }
     }, []);
 
     useEffect(()=>{console.log(params.slug[0], params.slug.slice(1).join("/")); getPost(params.slug[0], params.slug.slice(1).join("/"))}, []);
 
     useEffect(() => {
-      if (signer) {
-        const newContract = new ethers.Contract("0xabcc66Cd4e03601aC0C93C827D2078865Da59426", MyERC721Artifact.abi, signer);
+      if (signer && signerAddress == post?.uid) {
+        console.log("signerAddress is author");
+        const newContract = new ethers.Contract("0xebf30384736d28aAD50695117fd599585d0Cb84B", MyERC721Artifact.abi, signer);
         setContract(newContract);
-      }
+      } else if (signer && post?.comments?.some(item => item.uid == signerAddress)){
+        console.log("signerAddress is in comments");
+        const newContract = new ethers.Contract("0xf9EFec12853f3015448485c12d8a742Deb936e57", MyERC1155Artifact.abi, signer);
+        setContract(newContract);
+      } 
     }, [signer]);
 
-    const handleAddComment = () => {
-      if (comment.trim() !== '') {
-        setComments([...comments, comment]);
-        setComment('');  // Clear the comment input after adding
-      }
-    };
+    // const handleAddComment = () => {
+    //   if (comment.trim() !== '') {
+    //     setComments([...comments, comment]);
+    //     setComment('');  // Clear the comment input after adding
+    //   }
+    // };
 
     return (
         <>
@@ -125,18 +150,18 @@ export default function Post({ params }: { params: { slug: [string, string] } })
               placeholder="Write your comment here."
               rows={4}
             />
-            <Button onClick={handleAddComment}>Upload</Button>
+            <Button>Upload</Button>
             <Button onClick={handleClaim}>Claim</Button>
             <ul>
-            {comments.map((com, index) => (
-    <div key={index} style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
-      <div style={{ marginRight: '16px' }}>
-        <Avatar size={32} src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-        <div style={{ fontSize: '12px' }}>0x1234...</div>
-      </div>
-      <div style={{ backgroundColor: '#f1f1f1', padding: '12px', borderRadius: '8px', flex: 1 }}>
-        {com}
-      </div>
+            {post?.comments?.map((com, index) => (
+            <div key={index} style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
+              <div style={{ marginRight: '16px' }}>
+                <Avatar size={32} src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+                <div style={{ fontSize: '12px' }}>{com?.uid}</div>
+              </div>
+              <div style={{ backgroundColor: '#f1f1f1', padding: '12px', borderRadius: '8px', flex: 1 }}>
+                {com?.comment}
+              </div>
     </div>
   ))}
             </ul>
