@@ -7,7 +7,8 @@ import Card from './components/Card';
 const { Header, Content } = Layout;
 const { Title, Paragraph, Text } = Typography;
 import type { TabsProps } from 'antd';
-import { useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
@@ -49,7 +50,8 @@ export default function Home() {
       }}>
         <Title level={5} style={{color: "white"}}>TransWeb3</Title>
         <Space style={{ justifyContent: 'flex-end' }} size="small">
-            <Popover placement="bottomLeft" trigger="click" content={
+        <ConnectButton />
+            {/* <Popover placement="bottomLeft" trigger="click" content={
               <Space direction="vertical">
                 <Text>address-text</Text>
                 <Button>DISCONNECT</Button>
@@ -67,7 +69,7 @@ export default function Home() {
                 { value: 'jp', label: 'Japanese' },
               ]}
             />
-            <Button onClick={() => {router.push("/write")}}>CREATE</Button>
+            <Button onClick={() => {router.push("/write")}}>CREATE</Button> */}
           </Space>
       </Header>
       <Content style={{ maxWidth: '1120px', margin: '0 auto' }}>
