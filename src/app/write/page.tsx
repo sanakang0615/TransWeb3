@@ -39,9 +39,10 @@ export default function Write() {
   const router = useRouter();
   const [sismoConnectVerifiedResult, setSismoConnectVerifiedResult] =
   useState<SismoConnectVerifiedResult>();
-const [sismoConnectResponse, setSismoConnectResponse] = useState<SismoConnectResponse>();
-const [pageState, setPageState] = useState<string>("init");
-const [error, setError] = useState<string>("");
+  const [sismoConnectResponse, setSismoConnectResponse] = useState<SismoConnectResponse>();
+  const [pageState, setPageState] = useState<string>("init");
+  const [error, setError] = useState<string>("");
+  const componentDisabled = pageState === "init";
 
   const createSuccess = () => {
     messageApi.open({
@@ -91,19 +92,20 @@ const [error, setError] = useState<string>("");
         onFinish={onFinish}
         style={{ marginTop: 24 }}
         size="large"
+        disabled={componentDisabled}
       >
         <Form.Item name="title" label="title" rules={[{ required: true }]}>
-          <Input />
+          <Input placeholder={pageState === "init" ? "Confirm your Proof of Humanity" : ""} />
         </Form.Item>
         <Form.Item name="reference" label="reference" rules={[{ required: true }]}>
-          <Input />
+          <Input placeholder={pageState === "init" ? "Confirm your Proof of Humanity" : ""} />
         </Form.Item>
         <Form.Item name="image" label="image" rules={[{ required: true }]}>
-          <Input />
+          <Input placeholder={pageState === "init" ? "Confirm your Proof of Humanity" : ""} />
         </Form.Item>
         <Form.Item name="lang" label="language" rules={[{ required: true }]}>
           <Select
-            placeholder="Select the language of your translated contents"
+            placeholder={pageState === "init" ? "Confirm your Proof of Humanity" : "Select the language of your translated contents"}
             allowClear
           >
             <Option value="ko">Korean</Option>
@@ -150,14 +152,6 @@ const [error, setError] = useState<string>("");
           </>
         ) : (
           <>
-            <button
-              onClick={() => {
-                window.location.href = "/";
-              }}
-            >
-              {" "}
-              RESET{" "}
-            </button>
             <br></br>
             <div className="status-wrapper">
               {pageState == "verifying" ? (
