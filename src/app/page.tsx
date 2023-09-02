@@ -9,29 +9,11 @@ const { Title, Paragraph, Text } = Typography;
 import type { TabsProps } from 'antd';
 import { useRouter } from 'next/navigation'
 
-
-
-import {
-  SismoConnectButton,
-  SismoConnectResponse,
-  SismoConnectVerifiedResult,
-} from "@sismo-core/sismo-connect-react";
-import {
-  CONFIG,
-  AUTHS,
-  CLAIMS,
-  SIGNATURE_REQUEST,
-} from "./sismo-connect-config";
-
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const [lang, setLang] = useState("ko");
   const [tab, setTab] = useState("trending");
-
   const router = useRouter();
-
-
-  
 
   const items: TabsProps['items'] = [
     { 
