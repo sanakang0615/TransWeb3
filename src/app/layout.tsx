@@ -15,16 +15,15 @@ import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import {
   mainnet,
   polygon,
-  optimism,
-  arbitrum,
-  base,
-  zora,
+  polygonZkEvmTestnet,
+  lineaTestnet,
+  polygonMumbai
 } from 'wagmi/chains';
 import { alchemyProvider } from 'wagmi/providers/alchemy';
 import { publicProvider } from 'wagmi/providers/public';
 
 const { chains, publicClient } = configureChains(
-  [mainnet, polygon, optimism, arbitrum, base, zora],
+  [mainnet, polygon, lineaTestnet, polygonMumbai, polygonZkEvmTestnet],
   [
     // alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
     publicProvider()
