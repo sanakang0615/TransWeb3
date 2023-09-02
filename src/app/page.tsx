@@ -34,8 +34,6 @@ export default function Home() {
   const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
   const { disconnect } = useDisconnect()
   const { chain } = useNetwork()
-  const { chains, pendingChainId, switchNetwork } =
-  useSwitchNetwork()
  
   const goerliTestnet = {
     /** ID in number form */
@@ -90,28 +88,31 @@ export default function Home() {
         <Title level={5} style={{color: "white"}}>TransWeb3</Title>
         {isConnected ? (
           <Space style={{ justifyContent: 'flex-end' }} size="small">
-            <img src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" alt="ENS Avatar" />
-            {/* <p style={{color: "white"}}> */}
-              {ensName ? `${ensName} (${address})` : address}
-            {chain && <div>Connected to {chain.name}</div>}
-            {[...chains, goerliTestnet].map((x) => (
-        <button
-          disabled={!switchNetwork || x.id === chain?.id}
-          key={x.id}
-          onClick={() => switchNetwork?.(x.id)}
-        >
-          {x.name}
-          {isLoading && pendingChainId === x.id && ' (switching)'}
-        </button>
-        
-      ))}
-      {/* </p>  */}
-            <button onClick={() => disconnect()}>Disconnect</button>
+            <Popover placement="bottomLeft" trigger="click" content={
+              <Space direction="vertical">
+                <Text>{address}</Text>
+                <Text>{chain && chain.name}</Text>
+                <Button onClick={() => { disconnect() }}>DISCONNECT</Button>
+              </Space>
+            }>
+              <Avatar size={32} src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+            </Popover>
+            <Select
+              defaultValue="korean"
+              style={{ width: 120 }}
+              onChange={(v)=>{setLang(v)}}
+              options={[
+                { value: 'ko', label: 'Korean' },
+                { value: 'fr', label: 'French' },
+                { value: 'jp', label: 'Japanese' },
+              ]}
+            />
+            <Button onClick={() => {router.push("/write")}}>CREATE</Button>
           </Space>
         ) : (
-          <div>
+          <>
             {connectors.map((connector) => (
-              <button
+              <Button
                 disabled={!connector.ready}
                 key={connector.id}
                 onClick={() => connect({ connector })}
@@ -121,11 +122,11 @@ export default function Home() {
                 {isLoading &&
                   connector.id === pendingConnector?.id &&
                   ' (connecting)'}
-              </button>
+              </Button>
             ))}
        
-            {error && <div>{error.message}</div>}
-          </div>
+            {error && <>{error.message}</>}
+          </>
         )}
       </Header>
       <Content style={{ maxWidth: '1120px', margin: '0 auto' }}>

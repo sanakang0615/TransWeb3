@@ -44,19 +44,21 @@ export default function Post({ params }: { params: { slug: [string, string] } })
               style={{ objectFit: 'cover', height: '200px' }}
             />
           }
-          style={{ maxWidth: '800px', margin: 'auto' }}
+          style={{ maxWidth: '1200px', margin: 'auto' }}
         >
           <Title level={2}>{post?.title}</Title>
-          <Space>
-            <Avatar icon={<img src={post?.avatar} alt={post?.uid} />} />
-            <Text>Author UID: {post?.uid}</Text>
+          <Space direction="vertical">
+            <Space>
+              <Avatar icon={<img src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" alt={post?.uid} />} />
+              <Text>Author UID: {post?.uid}</Text>
+            </Space>
+            <div>
+              <Text strong>Reference: </Text>
+              <a href={post?.reference} target="_blank" rel="noopener noreferrer">
+                {post?.reference}
+              </a>
+            </div>
           </Space>
-          <div>
-            <Text strong>Reference:</Text>
-            <a href={post?.reference} target="_blank" rel="noopener noreferrer">
-              {post?.reference}
-            </a>
-          </div>
           <div style={{ margin: '20px 0' }}>
             <Text>{post?.contents}</Text>
           </div>
