@@ -74,7 +74,7 @@ export default function Write() {
         justifyContent: 'space-between', // Separates left and right components
         alignItems: 'center', // Align items vertically in the center
       }}>
-        <Title level={5} style={{color: "white"}} onClick={()=>{router.push("/")}}>TransWeb3</Title>
+        <Title level={3} style={{color: "white", paddingBottom:"13px", marginLeft:"-25px"}}>🌐 Web3 TransWiki</Title>
         <ConnectButton />
         {/* <Popover placement="bottomLeft" trigger="click" content={
           <Space direction="vertical">
