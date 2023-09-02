@@ -5,8 +5,6 @@ import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import { useAccount, useConnect, useEnsName } from 'wagmi'
-import { InjectedConnector } from 'wagmi/connectors/injected'
 import { useRouter } from 'next/navigation'
 
 const { Header, Content } = Layout;
@@ -25,12 +23,6 @@ export default function Write() {
   const [content, setContent] = useState("");
   const [messageApi, contextHolder] = message.useMessage();
   const router = useRouter();
-
-  const { address, isConnected } = useAccount()
-  const { data: ensName } = useEnsName({ address })
-  const { connect } = useConnect({
-    connector: new InjectedConnector(),
-  })
 
   const createSuccess = () => {
     messageApi.open({
@@ -65,7 +57,7 @@ export default function Write() {
         <Title level={5} style={{color: "white"}} onClick={()=>{router.push("/")}}>TransWeb3</Title>
         <Popover placement="bottomLeft" trigger="click" content={
           <Space direction="vertical">
-            <Text>{address}</Text>
+            <Text>address-text</Text>
             <Button onClick={() => { window.location.href = "/";}}>DISCONNECT</Button>
           </Space>
             }>
