@@ -11,7 +11,7 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 export default function Post({ params }: { params: { slug: [string, string] } }) {
     const [post, setPost] = useState({})
     const [comment, setComment] = useState('');
-    const [comments, setComments] = useState<string[]>([]);
+    const [comments, setComments] = useState<string[]>(["This is a hard-coded comment-1", "Another hard-coded comment-2"]);
     const getPost = async(lang: string, reference: string) => {
         const data = await (await fetch(`https://mt3fthybo4agqytt2h77jp4ufq0ertvi.lambda-url.ap-northeast-2.on.aws/?lang=${lang}&reference=${reference}`)).json();
         console.log(data);
@@ -88,9 +88,17 @@ export default function Post({ params }: { params: { slug: [string, string] } })
             />
             <Button onClick={handleAddComment}>Upload</Button>
             <ul>
-              {comments.map((com, index) => (
-                <li key={index}>{com}</li>
-              ))}
+            {comments.map((com, index) => (
+    <div key={index} style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
+      <div style={{ marginRight: '16px' }}>
+        <Avatar size={32} src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+        <div style={{ fontSize: '12px' }}>0x1234...</div>
+      </div>
+      <div style={{ backgroundColor: '#f1f1f1', padding: '12px', borderRadius: '8px', flex: 1 }}>
+        {com}
+      </div>
+    </div>
+  ))}
             </ul>
           </div>
 
