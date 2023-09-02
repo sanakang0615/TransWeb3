@@ -68,6 +68,7 @@ export default function Post({ params }: { params: { slug: [string, string] } })
                 {post?.reference}
               </a>
             </div>
+            <Text>Project: {post?.project}</Text>
           </Space>
           <div style={{ margin: '20px 0' }}>
             <Text>{post?.contents}</Text>
