@@ -7,7 +7,6 @@ import Card from './components/Card';
 const { Header, Content } = Layout;
 const { Title, Paragraph, Text } = Typography;
 import type { TabsProps } from 'antd';
-import { useAccount, useConnect, useEnsName, useDisconnect, useNetwork, useSwitchNetwork } from 'wagmi'
 import { useRouter } from 'next/navigation'
 
 
@@ -28,29 +27,10 @@ export default function Home() {
   const [posts, setPosts] = useState([]);
   const [lang, setLang] = useState("ko");
   const [tab, setTab] = useState("trending");
-  const { address, connector, isConnected } = useAccount()
-  const { data: ensName } = useEnsName({ address })
+
   const router = useRouter();
-  const { connect, connectors, error, isLoading, pendingConnector } = useConnect();
-  const { disconnect } = useDisconnect()
-  const { chain } = useNetwork()
- 
-  const goerliTestnet = {
-    /** ID in number form */
-    id: 5,
-    /** Human-readable name */
-    name: 'Goerli Testnet',
-    /** Internal network name */
-    network: 'goerlitest',
-    /** Currency used by chain */
-    nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
-    /** Collection of RPC endpoints */
-    rpcUrls: {
-      infura:
-        'https://aurora-testnet.infura.io/v3'
-    },
-    testnet: true
-  }
+
+
   
 
   const items: TabsProps['items'] = [
@@ -86,13 +66,11 @@ export default function Home() {
         alignItems: 'center', // Align items vertically in the center
       }}>
         <Title level={5} style={{color: "white"}}>TransWeb3</Title>
-        {isConnected ? (
-          <Space style={{ justifyContent: 'flex-end' }} size="small">
+        <Space style={{ justifyContent: 'flex-end' }} size="small">
             <Popover placement="bottomLeft" trigger="click" content={
               <Space direction="vertical">
-                <Text>{address}</Text>
-                <Text>{chain && chain.name}</Text>
-                <Button onClick={() => { disconnect() }}>DISCONNECT</Button>
+                <Text>address-text</Text>
+                <Button>DISCONNECT</Button>
               </Space>
             }>
               <Avatar size={32} src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
@@ -109,25 +87,6 @@ export default function Home() {
             />
             <Button onClick={() => {router.push("/write")}}>CREATE</Button>
           </Space>
-        ) : (
-          <>
-            {connectors.map((connector) => (
-              <Button
-                disabled={!connector.ready}
-                key={connector.id}
-                onClick={() => connect({ connector })}
-              >
-                {connector.name}
-                {!connector.ready && ' (unsupported)'}
-                {isLoading &&
-                  connector.id === pendingConnector?.id &&
-                  ' (connecting)'}
-              </Button>
-            ))}
-       
-            {error && <>{error.message}</>}
-          </>
-        )}
       </Header>
       <Content style={{ maxWidth: '1120px', margin: '0 auto' }}>
       {<>
