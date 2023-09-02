@@ -139,7 +139,7 @@ export default function Home() {
         <Row gutter={[16, 16]}>
           {posts.map((post) => (
             <Col xs={24} md={12} lg={8} key={post.uid}>
-              <Card post={post} />
+              <Card post={post}/>
             </Col>
           ))}
         </Row>
