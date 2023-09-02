@@ -72,12 +72,12 @@ export default function Write() {
               <Avatar size={32} src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
         </Popover>
       </Header>
-      <Content>
+      <Content style={{display: 'flex', justifyContent: 'center', maxWidth: '1120px', margin: '0 auto'}}>
       <Form
         form={form}
         name="control-hooks"
         onFinish={onFinish}
-        style={{ maxWidth: 600, marginTop: 24 }}
+        style={{ marginTop: 24 }}
       >
         <Form.Item name="title" label="title" rules={[{ required: true }]}>
           <Input />
