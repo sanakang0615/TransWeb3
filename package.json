@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@nomiclabs/hardhat-ethers": "^2.2.3",
+    "@nomiclabs/hardhat-waffle": "^2.0.6",
     "@sismo-core/sismo-connect-react": "0.0.23",
     "@sismo-core/sismo-connect-server": "0.0.23",
     "@types/node": "20.2.3",
@@ -16,8 +18,12 @@
     "@types/react-dom": "18.2.4",
     "@uiw/react-md-editor": "^3.6.0",
     "antd": "^5.8.5",
+    "chai": "^4.3.8",
     "eslint": "8.41.0",
     "eslint-config-next": "13.4.3",
+    "ethereum-waffle": "^4.0.10",
+    "ethers": "^5.7.2",
+    "hardhat": "^2.17.2",
     "next": "13.4.3",
     "next-remove-imports": "^1.0.12",
     "react": "18.2.0",

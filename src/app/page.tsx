@@ -91,7 +91,8 @@ export default function Home() {
         {isConnected ? (
           <Space style={{ justifyContent: 'flex-end' }} size="small">
             <img src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" alt="ENS Avatar" />
-            <p style={{color: "white"}}>{ensName ? `${ensName} (${address})` : address}
+            {/* <p style={{color: "white"}}> */}
+              {ensName ? `${ensName} (${address})` : address}
             {chain && <div>Connected to {chain.name}</div>}
             {[...chains, goerliTestnet].map((x) => (
         <button
@@ -103,7 +104,8 @@ export default function Home() {
           {isLoading && pendingChainId === x.id && ' (switching)'}
         </button>
         
-      ))}</p> 
+      ))}
+      {/* </p>  */}
             <button onClick={() => disconnect()}>Disconnect</button>
           </Space>
         ) : (
