@@ -1,13 +1,19 @@
 import { Card as AntCard } from 'antd';
 import { HeartOutlined } from '@ant-design/icons';
 import { Space, Typography } from 'antd';
+import { useRouter } from 'next/navigation'
 
 const { Text } = Typography;
 
 
 export default function Card({ post }) {
+  const router = useRouter();
+
   return (
     <AntCard
+      onClick={() => {
+        router.push(`/post/${post.lang}/${post.reference.substring(8)}`);
+      }}
       hoverable
       cover={<div style={{ height: '200px', overflow: 'hidden', display: 'flex', 
       justifyContent: 'center',
