@@ -1,14 +1,17 @@
 "use client"
 
-import { Card, Avatar, Typography, Space, Popover, Layout, Button } from 'antd';
+import { Card, Avatar, Typography, Space, Popover, Layout, Button, Input } from 'antd';
 import { HeartOutlined } from '@ant-design/icons';
 const { Header, Content } = Layout;
-
-const { Title, Text } = Typography;import { useEffect, useState } from "react"
+const { Title, Text } = Typography;
+import { useEffect, useState } from "react"
 import { useRouter } from 'next/navigation';
+import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 export default function Post({ params }: { params: { slug: [string, string] } }) {
     const [post, setPost] = useState({})
+    const [comment, setComment] = useState('');
+    const [comments, setComments] = useState<string[]>([]);
     const getPost = async(lang: string, reference: string) => {
         const data = await (await fetch(`https://mt3fthybo4agqytt2h77jp4ufq0ertvi.lambda-url.ap-northeast-2.on.aws/?lang=${lang}&reference=${reference}`)).json();
         console.log(data);
@@ -17,6 +20,13 @@ export default function Post({ params }: { params: { slug: [string, string] } })
     const router = useRouter();
 
     useEffect(()=>{console.log(params.slug[0], params.slug.slice(1).join("/")); getPost(params.slug[0], params.slug.slice(1).join("/"))}, []);
+
+    const handleAddComment = () => {
+      if (comment.trim() !== '') {
+        setComments([...comments, comment]);
+        setComment('');  // Clear the comment input after adding
+      }
+    };
 
     return (
         <>
@@ -66,6 +76,24 @@ export default function Post({ params }: { params: { slug: [string, string] } })
             <HeartOutlined />
             <Text> {post?.like} Likes</Text>
           </div>
+
+          {/* Comment Section */}
+          <div style={{ marginTop: '20px' }}>
+            <ConnectButton/>
+            <Input.TextArea
+              value={comment}
+              onChange={(e) => setComment(e.target.value)}
+              placeholder="Write your comment here."
+              rows={4}
+            />
+            <Button onClick={handleAddComment}>Upload</Button>
+            <ul>
+              {comments.map((com, index) => (
+                <li key={index}>{com}</li>
+              ))}
+            </ul>
+          </div>
+
         </Card>
         </Content>
     </>
