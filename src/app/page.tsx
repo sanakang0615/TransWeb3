@@ -49,7 +49,7 @@ export default function Home() {
         justifyContent: 'space-between', // Separates left and right components
         alignItems: 'center', // Align items vertically in the center
       }}>
-        <Title level={5} style={{color: "white"}}>TransWeb3</Title>
+        <Title level={3} style={{color: "white", paddingBottom:"13px", marginLeft:"-25px"}}>🌐 Web3 TransWiki</Title>
         <Space style={{ justifyContent: 'flex-end' }} size="small">
         <ConnectButton />
         <Button type="primary" shape="round" icon={<EditOutlined />} size="large" onClick={() => {router.push("/write")}}>POST</Button>
@@ -60,14 +60,27 @@ export default function Home() {
       {<>
         <br />
         <br />
-        <Title level={1} style={{ textAlign: 'center'}}>TransWeb3</Title>
-        <br />
-        <Paragraph style={{ textAlign: 'center' }}>
-        웹3 콘텐츠, 번역해서 읽고 있다면 혼자 보지 말고 올려보세요.  <br /> 글 작성에 대한 <Text code>NFT</Text>를 발급해드리며, 재단의 공식 번역 문서로 사용될 수 있게 돕겠습니다.<br /><br />
-        <br />
-        <Search size="large" addonBefore="https://" placeholder="url을 입력해보세요." allowClear />
         <br />
         <br />
+        <br />
+        <Title level={1} style={{ textAlign: 'center' }}> The potential of crowdsourcing. </Title>
+        <br />
+        <Paragraph style={{ textAlign: 'center'}}>
+          
+          <Text type="secondary" >
+          UNLOCK THE POWER TO ELEVATE GLOBAL ACCESSIBILITY TO MULTILINGUAL WEB3 CONTENT. <br />
+          SHARE YOUR TRANSLATIONS WITH US, AND BE REWARDED FOR YOUR CONTRIBUTIONS WITH EXCLUSIVE <Text type="secondary" keyboard>NFT</Text> <br />
+          WE'LL ALSO ASSIST YOU IN MAKING THEM<Text type="secondary" keyboard>OFFICIAL TRANSLATION DOCUMENTS</Text> FOR OUR FOUNDATION :) <br />
+
+          </Text>
+          <br />
+          <br />
+          <br />
+          <Search size="large" addonBefore="https://" placeholder="Enter the URL!" allowClear />
+          <br />
+          <br />
+          <br />
+          <br />
         </Paragraph>
       </>}
         <Tabs defaultActiveKey="1" items={items} onChange={onTabChange} style={{marginTop: 30}}/>
