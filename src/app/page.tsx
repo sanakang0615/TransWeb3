@@ -36,9 +36,24 @@ export default function Home() {
   const { chain } = useNetwork()
   const { chains, pendingChainId, switchNetwork } =
   useSwitchNetwork()
-  const goerliTestnet = useSwitchNetwork({
-    chainId: 5,
-  })
+ 
+  const goerliTestnet = {
+    /** ID in number form */
+    id: 5,
+    /** Human-readable name */
+    name: 'Goerli Testnet',
+    /** Internal network name */
+    network: 'goerlitest',
+    /** Currency used by chain */
+    nativeCurrency: { name: 'Ether', symbol: 'ETH', decimals: 18 },
+    /** Collection of RPC endpoints */
+    rpcUrls: {
+      infura:
+        'https://aurora-testnet.infura.io/v3'
+    },
+    testnet: true
+  }
+  
 
   const items: TabsProps['items'] = [
     { 
@@ -76,9 +91,9 @@ export default function Home() {
         {isConnected ? (
           <Space style={{ justifyContent: 'flex-end' }} size="small">
             <img src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" alt="ENS Avatar" />
-            {ensName ? `${ensName} (${address})` : address}
+            <p style={{color: "white"}}>{ensName ? `${ensName} (${address})` : address}
             {chain && <div>Connected to {chain.name}</div>}
-            {chains.map((x) => (
+            {[...chains, goerliTestnet].map((x) => (
         <button
           disabled={!switchNetwork || x.id === chain?.id}
           key={x.id}
@@ -87,7 +102,8 @@ export default function Home() {
           {x.name}
           {isLoading && pendingChainId === x.id && ' (switching)'}
         </button>
-      ))}
+        
+      ))}</p> 
             <button onClick={() => disconnect()}>Disconnect</button>
           </Space>
         ) : (
