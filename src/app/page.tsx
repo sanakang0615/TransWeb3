@@ -92,7 +92,7 @@ export default function Home() {
       {<>
         <Title level={1} style={{ textAlign: 'center'}}>TransWeb3</Title>
         <Paragraph style={{ textAlign: 'center' }}>
-        웹3 콘텐츠, 번역해서 읽고 있다면 혼자 보지 말고 올려보세요.  <br /> 글 작성에 대한 NFT를 발급해드리며, 재단의 공식 번역 문서로 사용될 수 있게 돕겠습니다.
+        웹3 콘텐츠, 번역해서 읽고 있다면 혼자 보지 말고 올려보세요.  <br /> 글 작성에 대한 <Text code>NFT</Text>를 발급해드리며, 재단의 공식 번역 문서로 사용될 수 있게 돕겠습니다.
         </Paragraph>
       </>}
         <Tabs defaultActiveKey="1" items={items} onChange={onTabChange} style={{marginTop: 30}}/>
