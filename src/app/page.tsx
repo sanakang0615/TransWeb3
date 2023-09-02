@@ -1,9 +1,8 @@
 "use client";
 
-import { SearchOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { Input, Avatar, Button, Col, Layout, Menu, Popover, Row, Typography, Space, Select, Tabs } from 'antd';
-import { RiseOutlined, HistoryOutlined } from '@ant-design/icons';
+import { RiseOutlined, HistoryOutlined, EditOutlined, DiffOutlined } from '@ant-design/icons';
 import Card from './components/Card';
 const { Header, Content } = Layout;
 const { Title, Paragraph, Text } = Typography;
@@ -53,35 +52,22 @@ export default function Home() {
         <Title level={5} style={{color: "white"}}>TransWeb3</Title>
         <Space style={{ justifyContent: 'flex-end' }} size="small">
         <ConnectButton />
-        <Button onClick={() => {router.push("/write")}}>CREATE</Button>
-            {/* <Popover placement="bottomLeft" trigger="click" content={
-              <Space direction="vertical">
-                <Text>address-text</Text>
-                <Button>DISCONNECT</Button>
-              </Space>
-            }>
-              <Avatar size={32} src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-            </Popover>
-            <Select
-              defaultValue="korean"
-              style={{ width: 120 }}
-              onChange={(v)=>{setLang(v)}}
-              options={[
-                { value: 'ko', label: 'Korean' },
-                { value: 'fr', label: 'French' },
-                { value: 'jp', label: 'Japanese' },
-              ]}
-            />
-             */}
+        <Button type="primary" shape="round" icon={<EditOutlined />} size="large" onClick={() => {router.push("/write")}}>POST</Button>
           </Space>
       </Header>
       
       <Content style={{ maxWidth: '1120px', margin: '0 auto' }}>
       {<>
+        <br />
+        <br />
         <Title level={1} style={{ textAlign: 'center'}}>TransWeb3</Title>
+        <br />
         <Paragraph style={{ textAlign: 'center' }}>
         웹3 콘텐츠, 번역해서 읽고 있다면 혼자 보지 말고 올려보세요.  <br /> 글 작성에 대한 <Text code>NFT</Text>를 발급해드리며, 재단의 공식 번역 문서로 사용될 수 있게 돕겠습니다.<br /><br />
-        <Search addonBefore="https://" placeholder="url을 입력해보세요." allowClear />
+        <br />
+        <Search size="large" addonBefore="https://" placeholder="url을 입력해보세요." allowClear />
+        <br />
+        <br />
         </Paragraph>
       </>}
         <Tabs defaultActiveKey="1" items={items} onChange={onTabChange} style={{marginTop: 30}}/>
