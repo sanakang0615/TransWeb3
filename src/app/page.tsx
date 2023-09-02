@@ -51,6 +51,7 @@ export default function Home() {
         <Title level={5} style={{color: "white"}}>TransWeb3</Title>
         <Space style={{ justifyContent: 'flex-end' }} size="small">
         <ConnectButton />
+        <Button onClick={() => {router.push("/write")}}>CREATE</Button>
             {/* <Popover placement="bottomLeft" trigger="click" content={
               <Space direction="vertical">
                 <Text>address-text</Text>
@@ -69,7 +70,7 @@ export default function Home() {
                 { value: 'jp', label: 'Japanese' },
               ]}
             />
-            <Button onClick={() => {router.push("/write")}}>CREATE</Button> */}
+             */}
           </Space>
       </Header>
       <Content style={{ maxWidth: '1120px', margin: '0 auto' }}>
