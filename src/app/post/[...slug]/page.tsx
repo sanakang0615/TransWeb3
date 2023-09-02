@@ -7,6 +7,10 @@ const { Title, Text } = Typography;
 import { useEffect, useState } from "react"
 import { useRouter } from 'next/navigation';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+import { ethers } from 'ethers';
+import MyERC721Artifact from '../../../../contracts/MyERC721.json'; // ABI를 포함한 컨트랙트 아티팩트를 import합니다.
+
+
 
 export default function Post({ params }: { params: { slug: [string, string] } }) {
     const [post, setPost] = useState({})
@@ -17,9 +21,43 @@ export default function Post({ params }: { params: { slug: [string, string] } })
         console.log(data);
         setPost(data);
     }
+    const [provider, setProvider] = useState(null);
+    const [signer, setSigner] = useState(null);
+    const [contract, setContract] = useState(null);
     const router = useRouter();
 
+    const handleClaim = async () => {
+      if (contract) {
+        const tokenURI = "ipfs://bafybeib3rtjvescbhmlhoqcxhch7otbaq64jnhgcu7skzw22mxdcyyf54m/";
+        const tx = await contract.mintToken(signer.getAddress(), tokenURI); // mint는 컨트랙트에서 정의한 함수입니다.
+        const receipt = await tx.wait();
+        console.log("receipt", receipt);
+
+        const tokenId = receipt.events
+          .filter((x) => x.event === "Transfer")
+          .map((x) => x.args.tokenId)
+          .toString();
+        console.log("Minted Token ID:", tokenId);
+      }
+    };
+
+    useEffect(() => {
+      if (window.ethereum) {
+        const newProvider = new ethers.providers.Web3Provider(window.ethereum, "any");
+        setProvider(newProvider);
+        const newSigner = newProvider.getSigner();
+        setSigner(newSigner);
+      }
+    }, []);
+
     useEffect(()=>{console.log(params.slug[0], params.slug.slice(1).join("/")); getPost(params.slug[0], params.slug.slice(1).join("/"))}, []);
+
+    useEffect(() => {
+      if (signer) {
+        const newContract = new ethers.Contract("0xabcc66Cd4e03601aC0C93C827D2078865Da59426", MyERC721Artifact.abi, signer);
+        setContract(newContract);
+      }
+    }, [signer]);
 
     const handleAddComment = () => {
       if (comment.trim() !== '') {
@@ -88,6 +126,7 @@ export default function Post({ params }: { params: { slug: [string, string] } })
               rows={4}
             />
             <Button onClick={handleAddComment}>Upload</Button>
+            <Button onClick={handleClaim}>Claim</Button>
             <ul>
             {comments.map((com, index) => (
     <div key={index} style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
