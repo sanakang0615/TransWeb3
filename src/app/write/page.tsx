@@ -6,6 +6,8 @@ import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
 import { useState } from "react";
 import { useRouter } from 'next/navigation'
+import { ConnectButton } from '@rainbow-me/rainbowkit';
+
 
 const { Header, Content } = Layout;
 const { Title, Paragraph, Text } = Typography;
@@ -55,6 +57,7 @@ export default function Write() {
         alignItems: 'center', // Align items vertically in the center
       }}>
         <Title level={5} style={{color: "white"}} onClick={()=>{router.push("/")}}>TransWeb3</Title>
+        <ConnectButton />
         <Popover placement="bottomLeft" trigger="click" content={
           <Space direction="vertical">
             <Text>address-text</Text>
