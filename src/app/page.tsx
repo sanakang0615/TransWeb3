@@ -63,8 +63,8 @@ export default function Home() {
         <br />
         <br />
         <br />
-        <Title level={1} style={{ textAlign: 'center', fontSize: '53px', fontWeight: 'bold', marginTop:"50px", marginBottom:"15px" }}> Potential of crowdsourcing. </Title>
-        <br />
+        <Title level={1} style={{ textAlign: 'center', fontSize: '53px', fontWeight: 'bold', marginTop:"50px"}}> Potential of crowdsourcing. </Title>
+        
         <Paragraph style={{ textAlign: 'center'}}>
           
           <Text type="secondary" >
@@ -73,7 +73,6 @@ export default function Home() {
           WE'LL ALSO ASSIST YOU IN MAKING THEM<Text type="secondary" keyboard>OFFICIAL TRANSLATION DOCUMENTS</Text> FOR OUR FOUNDATION :) <br />
 
           </Text>
-          <br />
           <br />
           <br />
           <br />

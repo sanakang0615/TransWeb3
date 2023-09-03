@@ -4,6 +4,7 @@ import { message, Avatar, Button, Col, Layout, Menu, Popover, Row, Typography, S
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
+import { ClockCircleOutlined } from '@ant-design/icons';
 import { useState } from "react";
 import { useRouter } from 'next/navigation'
 import { ConnectButton } from '@rainbow-me/rainbowkit';
@@ -76,36 +77,28 @@ export default function Write() {
       }}>
         <Title level={4} style={{color: "white", paddingBottom:"15px", marginLeft:"-25px"}}>🌐 Web3 TransWiki</Title>
         <ConnectButton />
-        {/* <Popover placement="bottomLeft" trigger="click" content={
-          <Space direction="vertical">
-            <Text>address-text</Text>
-            <Button onClick={() => { window.location.href = "/";}}>DISCONNECT</Button>
-          </Space>
-            }>
-              <Avatar size={32} src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-        </Popover> */}
       </Header>
       <Content style={{display: 'flex', justifyContent: 'center', margin: '0 auto'}}>
       <Form
         form={form}
         name="control-hooks"
         onFinish={onFinish}
-        style={{ marginTop: 24 }}
+        style={{ marginTop: '100px'}}
         size="large"
         disabled={componentDisabled}
       >
-        <Form.Item name="title" label="title" rules={[{ required: true }]}>
-          <Input placeholder={pageState === "init" ? "Confirm your Proof of Humanity" : ""} />
+        <Form.Item name="title" label = "title" rules={[{ required: true }]} validateStatus={componentDisabled ? "error" : undefined} hasFeedback help={componentDisabled ? "Confirm your Proof of Humanity." : undefined} style={{marginBottom:"40px"}} >
+        <Input disabled={componentDisabled} />
         </Form.Item>
-        <Form.Item name="reference" label="reference" rules={[{ required: true }]}>
-          <Input placeholder={pageState === "init" ? "Confirm your Proof of Humanity" : ""} />
+        <Form.Item name="reference" label="reference" rules={[{ required: true }]} validateStatus={componentDisabled ? "error" : undefined} hasFeedback help={componentDisabled ? "Confirm your Proof of Humanity." : undefined} style={{marginBottom:"40px"}} >
+         <Input disabled={componentDisabled} />
         </Form.Item>
-        <Form.Item name="image" label="image" rules={[{ required: true }]}>
-          <Input placeholder={pageState === "init" ? "Confirm your Proof of Humanity" : ""} />
+        <Form.Item name="image" label="image" rules={[{ required: true }]} validateStatus={componentDisabled ? "error" : undefined} hasFeedback help={componentDisabled ? "Confirm your Proof of Humanity." : undefined} style={{marginBottom:"40px"}} >
+         <Input disabled={componentDisabled} />
         </Form.Item>
-        <Form.Item name="lang" label="language" rules={[{ required: true }]}>
+        <Form.Item name="lang" label="language" rules={[{ required: true }]} validateStatus={componentDisabled ? "error" : undefined} hasFeedback help={componentDisabled ? "Confirm your Proof of Humanity." : undefined} style={{marginBottom:"60px"}} >
           <Select
-            placeholder={pageState === "init" ? "Confirm your Proof of Humanity" : "Select the language of your translated contents"}
+            placeholder= "Select the language of your translated contents"
             allowClear
           >
             <Option value="ko">Korean</Option>
@@ -117,6 +110,8 @@ export default function Write() {
           <MDEditor value={content} onChange={setContent} />
         </Form.Item>
       <Form.Item>
+      <br />
+      <br />
       {pageState == "init" ? (
           <>
             <SismoConnectButton
