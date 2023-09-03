@@ -6,7 +6,9 @@
     "dev": "NODE_OPTIONS='--max-http-header-size=24576' next dev",
     "build": "next build",
     "start": "NODE_OPTIONS='--max-http-header-size=24576' next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "deploy": "gh-pages -d build",
+    "predeploy": "npm run build"
   },
   "dependencies": {
     "@nomiclabs/hardhat-ethers": "^2.2.3",
@@ -25,6 +27,7 @@
     "eslint-config-next": "13.4.3",
     "ethereum-waffle": "^4.0.10",
     "ethers": "^5.7.2",
+    "gh-pages": "^6.0.0",
     "hardhat": "^2.17.2",
     "lokijs": "^1.5.12",
     "next": "13.4.3",

@@ -16,6 +16,7 @@ export default function Home() {
   const [lang, setLang] = useState("ko");
   const [tab, setTab] = useState("trending");
   const router = useRouter();
+  const [search, setSearch] = useState("");
 
   const items: TabsProps['items'] = [
     { 
@@ -30,6 +31,14 @@ export default function Home() {
 
   const onTabChange = (key: string) => {
     setTab(key);
+  };
+
+  const onSearchChange = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const onSearchButtonClick = (value) => {
+    router.push(`/post/${lang}/${value}`);
   };
 
   const getPosts = async(lang: string) => {
@@ -76,7 +85,15 @@ export default function Home() {
           <br />
           <br />
           <br />
-          <Search size="large" addonBefore="https://" placeholder="Discover interesting URLs of your choice!" allowClear />
+          <Search 
+            value={search} 
+            onChange={onSearchChange} 
+            size="large" 
+            addonBefore="https://" 
+            placeholder="Discover interesting URLs of your choice!" 
+            allowClear 
+            onSearch={onSearchButtonClick}
+          />          
           <br />
           <br />
           <br />
