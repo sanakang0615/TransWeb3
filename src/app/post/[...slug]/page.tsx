@@ -10,6 +10,11 @@ import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { ethers } from 'ethers';
 import MyERC721Artifact from '../../../../contracts/MyERC721.json'; // ABI를 포함한 컨트랙트 아티팩트를 import합니다.
 import MyERC1155Artifact from '../../../../contracts/MyERC1155.json'; // ABI를 포함한 컨트랙트 아티팩트를 import합니다.
+import pMyERC721Artifact from '../../../../contracts/pMyERC721.json'; // ABI를 포함한 컨트랙트 아티팩트를 import합니다.
+import pMyERC1155Artifact from '../../../../contracts/pMyERC1155.json'; // ABI를 포함한 컨트랙트 아티팩트를 import합니다.
+
+
+import { useNetwork } from 'wagmi'
 
 
 
@@ -26,6 +31,7 @@ export default function Post({ params }: { params: { slug: [string, string] } })
     const [signerAddress, setSignerAddress] = useState("");
     const [contract, setContract] = useState(null);
     const router = useRouter();
+    const { chain, chains } = useNetwork()
 
     const getSignerAddress = async (signer: any) => {
       const add = await(await signer.getAddress());
@@ -36,27 +42,59 @@ export default function Post({ params }: { params: { slug: [string, string] } })
       console.log("signer", signerAddress);
       console.log("author", post?.uid);
       console.log("contract", contract);
-      if (contract && signerAddress == post?.uid) {
-        const tokenURI = "ipfs://bafybeib3rtjvescbhmlhoqcxhch7otbaq64jnhgcu7skzw22mxdcyyf54m/";
-        const tx = await contract.mintToken(signer.getAddress(), tokenURI); // mint는 컨트랙트에서 정의한 함수입니다.
-        const receipt = await tx.wait();
-        console.log("receipt", receipt);
-
-        const tokenId = receipt.events
-          .filter((x) => x.event === "Transfer")
-          .map((x) => x.args.tokenId)
-          .toString();
-        console.log("Minted Token ID:", tokenId);
-      } else if (contract && post?.comments?.some(item => item.uid === signerAddress)){
-        const tx = await contract.mintToken(signer.getAddress(), 5); // mint는 컨트랙트에서 정의한 함수입니다.
-        const receipt = await tx.wait();
-        console.log("receipt", receipt);
-
-        const tokenId = receipt.events
-          .filter((x) => x.event === "Transfer")
-          .map((x) => x.args.tokenId)
-          .toString();
-        console.log("Minted Token ID:", tokenId);
+      if(chain.name == "Linea Goerli Testnet"){
+        console.log("Linea");
+        if (signerAddress == post?.uid) {
+          const tokenURI = "ipfs://bafybeib3rtjvescbhmlhoqcxhch7otbaq64jnhgcu7skzw22mxdcyyf54m/";
+          const newContract = new ethers.Contract("0xebf30384736d28aAD50695117fd599585d0Cb84B", MyERC721Artifact.abi, signer);
+          const tx = await newContract.mintToken(signer.getAddress(), tokenURI); // mint는 컨트랙트에서 정의한 함수입니다.
+          const receipt = await tx.wait();
+          console.log("receipt", receipt);
+  
+          const tokenId = receipt.events
+            .filter((x) => x.event === "Transfer")
+            .map((x) => x.args.tokenId)
+            .toString();
+          console.log("Minted Token ID:", tokenId);
+        } else if (post?.comments?.some(item => item.uid === signerAddress)){
+          const newContract = new ethers.Contract("0xf9EFec12853f3015448485c12d8a742Deb936e57", MyERC1155Artifact.abi, signer);
+          const tx = await newContract.mintToken(signer.getAddress(), 5); // mint는 컨트랙트에서 정의한 함수입니다.
+          const receipt = await tx.wait();
+          console.log("receipt", receipt);
+  
+          const tokenId = receipt.events
+            .filter((x) => x.event === "Transfer")
+            .map((x) => x.args.tokenId)
+            .toString();
+          console.log("Minted Token ID:", tokenId);
+        }
+      } else{
+        console.log("ZK")
+        if (signerAddress == post?.uid) {
+          const tokenURI = "ipfs://bafybeib3rtjvescbhmlhoqcxhch7otbaq64jnhgcu7skzw22mxdcyyf54m/";
+          const newContract = new ethers.Contract("0x1b126393CE24C0f1Cf643e85bA51be18272ae634", pMyERC721Artifact.abi, signer);
+          const tx = await newContract.mintToken(signer.getAddress(), tokenURI); // mint는 컨트랙트에서 정의한 함수입니다.
+          const receipt = await tx.wait();
+          console.log("receipt", receipt);
+  
+          const tokenId = receipt.events
+            .filter((x) => x.event === "Transfer")
+            .map((x) => x.args.tokenId)
+            .toString();
+          console.log("Minted Token ID:", tokenId);
+        } else if (post?.comments?.some(item => item.uid === signerAddress)){
+          console.log("here");
+          const newContract = new ethers.Contract("0x186C275DD08af7Ab4Fe5094B0d2538EB1f2824B5", pMyERC1155Artifact.abi, signer);
+          const tx = await newContract.mintToken(signer.getAddress(), 5); // mint는 컨트랙트에서 정의한 함수입니다.
+          const receipt = await tx.wait();
+          console.log("receipt", receipt);
+  
+          const tokenId = receipt.events
+            .filter((x) => x.event === "Transfer")
+            .map((x) => x.args.tokenId)
+            .toString();
+          console.log("Minted Token ID:", tokenId);
+        }
       }
     };
 
@@ -75,12 +113,8 @@ export default function Post({ params }: { params: { slug: [string, string] } })
     useEffect(() => {
       if (signer && signerAddress == post?.uid) {
         console.log("signerAddress is author");
-        const newContract = new ethers.Contract("0xebf30384736d28aAD50695117fd599585d0Cb84B", MyERC721Artifact.abi, signer);
-        setContract(newContract);
       } else if (signer && post?.comments?.some(item => item.uid == signerAddress)){
         console.log("signerAddress is in comments");
-        const newContract = new ethers.Contract("0xf9EFec12853f3015448485c12d8a742Deb936e57", MyERC1155Artifact.abi, signer);
-        setContract(newContract);
       } 
     }, [signer]);
 
