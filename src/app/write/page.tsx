@@ -77,8 +77,10 @@ export default function Write() {
       }}>
         <Title level={4} style={{color: "white", paddingBottom:"15px", marginLeft:"-25px"}}>🌐 Web3 TransWiki</Title>
         <ConnectButton />
+        
       </Header>
-      <Content style={{display: 'flex', justifyContent: 'center', margin: '0 auto'}}>
+      <Content style={{ justifyContent: 'center', margin: '0 auto'}}>
+
       <Form
         form={form}
         name="control-hooks"
@@ -87,33 +89,10 @@ export default function Write() {
         size="large"
         disabled={componentDisabled}
       >
-        <Form.Item name="title" label = "title" rules={[{ required: true }]} validateStatus={componentDisabled ? "error" : undefined} hasFeedback help={componentDisabled ? "Confirm your Proof of Humanity." : undefined} style={{marginBottom:"40px"}} >
-        <Input disabled={componentDisabled} />
-        </Form.Item>
-        <Form.Item name="reference" label="reference" rules={[{ required: true }]} validateStatus={componentDisabled ? "error" : undefined} hasFeedback help={componentDisabled ? "Confirm your Proof of Humanity." : undefined} style={{marginBottom:"40px"}} >
-         <Input disabled={componentDisabled} />
-        </Form.Item>
-        <Form.Item name="image" label="image" rules={[{ required: true }]} validateStatus={componentDisabled ? "error" : undefined} hasFeedback help={componentDisabled ? "Confirm your Proof of Humanity." : undefined} style={{marginBottom:"40px"}} >
-         <Input disabled={componentDisabled} />
-        </Form.Item>
-        <Form.Item name="lang" label="language" rules={[{ required: true }]} validateStatus={componentDisabled ? "error" : undefined} hasFeedback help={componentDisabled ? "Confirm your Proof of Humanity." : undefined} style={{marginBottom:"60px"}} >
-          <Select
-            placeholder= "Select the language of your translated contents"
-            allowClear
-          >
-            <Option value="ko">Korean</Option>
-            <Option value="fr">French</Option>
-            <Option value="jp">Japanese</Option>
-          </Select>
-        </Form.Item>
-        <Form.Item name="contents" rules={[{ required: true }]}>
-          <MDEditor value={content} onChange={setContent} />
-        </Form.Item>
-      <Form.Item>
-      <br />
-      <br />
-      {pageState == "init" ? (
+        <Form.Item style={{marginBottom:"40px", textAlign: "right"}}>
+        {pageState == "init" ? (
           <>
+            
             <SismoConnectButton
               config={CONFIG}
               // Auths = Data Source Ownership Requests. (e.g Wallets, Github, Twitter, Github)
@@ -125,7 +104,7 @@ export default function Write() {
               claims={CLAIMS}
               // Signature = user can sign a message embedded in their zk proof
               signature={SIGNATURE_REQUEST}
-              text="Sismo로 접속하기"
+              text="Verify"
               // Triggered when received Sismo Connect response from user data vault
               onResponse={async (response: SismoConnectResponse) => {
                 setSismoConnectResponse(response);
@@ -163,12 +142,41 @@ export default function Write() {
             </div>
           </>
         )}
-        <Button type="primary" htmlType="submit">
-          Submit
-        </Button>
+        </Form.Item>
+        <Form.Item name="title" label = "title" rules={[{ required: true }]} validateStatus={componentDisabled ? "error" : undefined} hasFeedback help={componentDisabled ? "Confirm your Proof of Humanity." : undefined} style={{marginBottom:"40px"}} >
+        <Input disabled={componentDisabled} />
+        </Form.Item>
+        <Form.Item name="reference" label="reference" rules={[{ required: true }]} validateStatus={componentDisabled ? "error" : undefined} hasFeedback help={componentDisabled ? "Confirm your Proof of Humanity." : undefined} style={{marginBottom:"40px"}} >
+         <Input disabled={componentDisabled} />
+        </Form.Item>
+        <Form.Item name="image" label="image" rules={[{ required: true }]} validateStatus={componentDisabled ? "error" : undefined} hasFeedback help={componentDisabled ? "Confirm your Proof of Humanity." : undefined} style={{marginBottom:"40px"}} >
+         <Input disabled={componentDisabled} />
+        </Form.Item>
+        <Form.Item name="lang" label="language" rules={[{ required: true }]} validateStatus={componentDisabled ? "error" : undefined} hasFeedback help={componentDisabled ? "Confirm your Proof of Humanity." : undefined} style={{marginBottom:"60px"}} >
+          <Select
+            placeholder= "Select the language of your translated contents"
+            allowClear
+          >
+            <Option value="ko">🇰🇷 Korean</Option>
+            <Option value="fr">🇫🇷 French</Option>
+            <Option value="jp">🇯🇵 Japanese</Option>
+          </Select>
+        </Form.Item>
+        <Form.Item name="contents" rules={[{ required: true }]}>
+          <MDEditor value={content} onChange={setContent} />
+        </Form.Item>
+      <Form.Item>
+      <br />
+      <br />
+          <Button type="primary" htmlType="submit" >
+            Submit
+          </Button>
+      
       </Form.Item>
       </Form>
+      
       </Content>
+     
     </>
   );
 }

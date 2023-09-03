@@ -52,7 +52,7 @@ export default function Home() {
         <Title level={4} style={{color: "white", paddingBottom:"15px", marginLeft:"-25px"}}>🌐 Web3 TransWiki</Title>
         <Space style={{ justifyContent: 'flex-end' }} size="small">
         <ConnectButton />
-        <Button type="primary" style={{marginLeft:"10px", marginRight:"-22px"}} shape="round" icon={<EditOutlined />} size="large" onClick={() => {router.push("/write")}}>POST</Button>
+        <Button type="primary" style={{marginLeft:"10px", marginRight:"-24px", marginTop:"15px"}} shape="round" icon={<EditOutlined />} size="large" onClick={() => {router.push("/write")}}>POST</Button>
           </Space>
       </Header>
       
