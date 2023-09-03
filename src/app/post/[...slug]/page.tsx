@@ -1,7 +1,7 @@
 "use client"
 
-import { Card, Avatar, Typography, Space, Popover, Layout, Button, Input } from 'antd';
-import { HeartOutlined } from '@ant-design/icons';
+import { Card, Avatar, Typography, Space, Popover, Layout, Button, Input, Row } from 'antd';
+import { HeartOutlined, SendOutlined, UploadOutlined } from '@ant-design/icons';
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;
 import { useEffect, useState } from "react"
@@ -184,8 +184,10 @@ export default function Post({ params }: { params: { slug: [string, string] } })
               placeholder="Write your comment here."
               rows={4}
             />
-            <Button>Upload</Button>
-            <Button onClick={handleClaim}>Claim</Button>
+            <Row style = {{marginTop:"15px", marginBottom:"15px"}}>
+              <Button shape="round" icon={<UploadOutlined />}>Upload</Button>
+              <Button type="primary" shape="round" onClick={handleClaim} icon={<SendOutlined/>}>Claim</Button>
+            </Row>
             <ul>
             {post?.comments?.map((com, index) => (
             <div key={index} style={{ display: 'flex', alignItems: 'center', margin: '10px 0' }}>
