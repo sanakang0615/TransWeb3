@@ -34,7 +34,7 @@ export const CLAIMS: ClaimRequest[] = [
     // request user to prove membership in the group with value > 15, user can reveal more if they want
     groupId: "0xb543af195f2242ab8ce2f829ffa0e9b8",
     claimType: ClaimType.GTE,
-    value: 8, // dhadrien.sismo.eth has a score of 46, eligible. Can reveal more.
+    value: 10, // dhadrien.sismo.eth has a score of 46, eligible. Can reveal more.
     isSelectableByUser: true, // can reveal more than 15 if they want
   }
 ];
