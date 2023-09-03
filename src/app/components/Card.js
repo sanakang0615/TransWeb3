@@ -25,6 +25,7 @@ export default function Card({ post }) {
       <AntCard.Meta title={post.title} description={post.contents.substring(0, 100) + '...'} />
       <Space size="small">
         <Text code>{post.uid.substring(0, 6)}</Text>
+        <Text code>{post.period}</Text>
         <p>
           <HeartOutlined /> {post.like}
         </p>
