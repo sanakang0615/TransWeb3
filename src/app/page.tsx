@@ -87,7 +87,7 @@ export default function Home() {
         <Tabs defaultActiveKey="1" items={items} onChange={onTabChange} style={{marginTop: 30}}/>
         <Row gutter={[16, 16]}>
           {posts.map((post) => (
-            <Col xs={24} md={12} lg={8} key={post.uid}>
+            <Col xs={24} md={12} lg={8} key={post.lang+post.reference.substring(8)}>
               <Card post={post}/>
             </Col>
           ))}
