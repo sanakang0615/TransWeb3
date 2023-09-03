@@ -10,6 +10,7 @@ const { Search } = Input;
 import type { TabsProps } from 'antd';
 import { useRouter } from 'next/navigation';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
+const uid = require('uid');
 
 export default function Home() {
   const [posts, setPosts] = useState([]);
@@ -87,7 +88,7 @@ export default function Home() {
         <Tabs defaultActiveKey="1" items={items} onChange={onTabChange} style={{marginTop: 30}}/>
         <Row gutter={[16, 16]}>
           {posts.map((post) => (
-            <Col xs={24} md={12} lg={8} key={post.lang+post.reference.substring(8)}>
+            <Col xs={24} md={12} lg={8} key={uid()}>
               <Card post={post}/>
             </Col>
           ))}
