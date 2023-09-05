@@ -1,105 +1,109 @@
 "use client"
 
-import { Card, Avatar, Typography, Space, Popover, Layout, Button, Input, Row } from 'antd';
-import { HeartOutlined, SendOutlined, UploadOutlined } from '@ant-design/icons';
 const { Header, Content } = Layout;
 const { Title, Text } = Typography;
+
+import { Card, Avatar, Typography, Space, Popover, Layout, Button, Input, Row } from 'antd';
+import { HeartOutlined, SendOutlined, UploadOutlined } from '@ant-design/icons';
 import { useEffect, useState } from "react"
 import { useRouter } from 'next/navigation';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import { ethers } from 'ethers';
+import { useNetwork } from 'wagmi'
+
 import MyERC721Artifact from '../../../../contracts/MyERC721.json'; // ABI를 포함한 컨트랙트 아티팩트를 import합니다.
 import MyERC1155Artifact from '../../../../contracts/MyERC1155.json'; // ABI를 포함한 컨트랙트 아티팩트를 import합니다.
 import pMyERC721Artifact from '../../../../contracts/pMyERC721.json'; // ABI를 포함한 컨트랙트 아티팩트를 import합니다.
 import pMyERC1155Artifact from '../../../../contracts/pMyERC1155.json'; // ABI를 포함한 컨트랙트 아티팩트를 import합니다.
 
-
-import { useNetwork } from 'wagmi'
-
-
-
 export default function Post({ params }: { params: { slug: [string, string] } }) {
-    const [post, setPost] = useState({})
-    const [comment, setComment] = useState('');
-    const getPost = async(lang: string, reference: string) => {
-        const data = await (await fetch(`https://mt3fthybo4agqytt2h77jp4ufq0ertvi.lambda-url.ap-northeast-2.on.aws/?lang=${lang}&reference=${reference}`)).json();
-        console.log(data);
-        setPost(data);
-    }
-    const [provider, setProvider] = useState(null);
-    const [signer, setSigner] = useState(null);
-    const [signerAddress, setSignerAddress] = useState("");
-    const [contract, setContract] = useState(null);
-    const router = useRouter();
-    const { chain, chains } = useNetwork()
+  const [post, setPost] = useState<any>({});
+  const [comment, setComment] = useState('');
+  const getPost = async(lang: string, reference: string) => {
+      const data = await (await fetch(`https://mt3fthybo4agqytt2h77jp4ufq0ertvi.lambda-url.ap-northeast-2.on.aws/?lang=${lang}&reference=${reference}`)).json();
+      console.log(data);
+      setPost(data);
+  }
+  const [provider, setProvider] = useState(null);
+  const [signer, setSigner] = useState(null);
+  const [signerAddress, setSignerAddress] = useState("");
+  const [contract, setContract] = useState(null);
+  const router = useRouter();
+  const { chain, chains } = useNetwork()
 
-    const getSignerAddress = async (signer: any) => {
-      const add = await(await signer.getAddress());
-      setSignerAddress(add);
-    }
-
-    const handleClaim = async () => {
-      console.log("signer", signerAddress);
-      console.log("author", post?.uid);
-      console.log("contract", contract);
-      if(chain.name == "Linea Goerli Testnet"){
-        console.log("Linea");
-        if (signerAddress == post?.uid) {
-          const tokenURI = "ipfs://bafybeib3rtjvescbhmlhoqcxhch7otbaq64jnhgcu7skzw22mxdcyyf54m/";
-          const newContract = new ethers.Contract("0xebf30384736d28aAD50695117fd599585d0Cb84B", MyERC721Artifact.abi, signer);
-          const tx = await newContract.mintToken(signer.getAddress(), tokenURI); // mint는 컨트랙트에서 정의한 함수입니다.
-          const receipt = await tx.wait();
-          console.log("receipt", receipt);
-  
-          const tokenId = receipt.events
-            .filter((x) => x.event === "Transfer")
-            .map((x) => x.args.tokenId)
-            .toString();
-          console.log("Minted Token ID:", tokenId);
-        } else if (post?.comments?.some(item => item.uid === signerAddress)){
-          const newContract = new ethers.Contract("0xf9EFec12853f3015448485c12d8a742Deb936e57", MyERC1155Artifact.abi, signer);
-          const tx = await newContract.mintToken(signer.getAddress(), 5); // mint는 컨트랙트에서 정의한 함수입니다.
-          const receipt = await tx.wait();
-          console.log("receipt", receipt);
-  
-          const tokenId = receipt.events
-            .filter((x) => x.event === "Transfer")
-            .map((x) => x.args.tokenId)
-            .toString();
-          console.log("Minted Token ID:", tokenId);
-        }
-      } else{
-        console.log("ZK")
-        if (signerAddress == post?.uid) {
-          const tokenURI = "ipfs://bafybeib3rtjvescbhmlhoqcxhch7otbaq64jnhgcu7skzw22mxdcyyf54m/";
-          const newContract = new ethers.Contract("0x1b126393CE24C0f1Cf643e85bA51be18272ae634", pMyERC721Artifact.abi, signer);
-          const tx = await newContract.mintToken(signer.getAddress(), tokenURI); // mint는 컨트랙트에서 정의한 함수입니다.
-          const receipt = await tx.wait();
-          console.log("receipt", receipt);
-  
-          const tokenId = receipt.events
-            .filter((x) => x.event === "Transfer")
-            .map((x) => x.args.tokenId)
-            .toString();
-          console.log("Minted Token ID:", tokenId);
-        } else if (post?.comments?.some(item => item.uid === signerAddress)){
-          console.log("here");
-          const newContract = new ethers.Contract("0x186C275DD08af7Ab4Fe5094B0d2538EB1f2824B5", pMyERC1155Artifact.abi, signer);
-          const tx = await newContract.mintToken(signer.getAddress(), 5); // mint는 컨트랙트에서 정의한 함수입니다.
-          const receipt = await tx.wait();
-          console.log("receipt", receipt);
-  
-          const tokenId = receipt.events
-            .filter((x) => x.event === "Transfer")
-            .map((x) => x.args.tokenId)
-            .toString();
-          console.log("Minted Token ID:", tokenId);
-        }
+  const getSignerAddress = async (signer: ethers.providers.JsonRpcSigner | ethers.providers.Provider) => {
+    try {
+      if (signer instanceof ethers.providers.JsonRpcSigner) {
+        const add = await signer.getAddress();
+        setSignerAddress(add);
+      } else {
+        console.error("The signer doesn't support getAddress method");
       }
-    };
+    } catch (error) {
+      console.error("Error getting signer address:", error);
+    }
+  }
+
+  const handleClaim = async () => {
+    if (!signer) {
+      console.log("Signer is null");
+      return;
+    }
+  
+    console.log("signer", signerAddress);
+    console.log("author", post?.uid);
+    console.log("contract", contract);
+  
+    if (chain?.name === "Linea Goerli Testnet") {
+      console.log("Linea");
+  
+      if (signerAddress === post?.uid) {
+        await handleMinting(MyERC721Artifact.abi, "0xebf30384736d28aAD50695117fd599585d0Cb84B");
+      } else if (post?.comments?.some((item: { uid: string }) => item.uid === signerAddress)) {
+        await handleMinting(MyERC1155Artifact.abi, "0xf9EFec12853f3015448485c12d8a742Deb936e57", 5);
+      }
+    } else {
+      console.log("ZK");
+  
+      if (signerAddress === post?.uid) {
+        await handleMinting(pMyERC721Artifact.abi, "0x1b126393CE24C0f1Cf643e85bA51be18272ae634");
+      } else if (post?.comments?.some((item: { uid: string }) => item.uid === signerAddress)) {
+        console.log("here");
+        await handleMinting(pMyERC1155Artifact.abi, "0x186C275DD08af7Ab4Fe5094B0d2538EB1f2824B5", 5);
+      }
+    }
+  };
+  
+  const handleMinting = async (abi: any, contractAddress: string, tokenAmount?: number) => {
+    
+    if (signer) {
+      const tokenURI = "ipfs://bafybeib3rtjvescbhmlhoqcxhch7otbaq64jnhgcu7skzw22mxdcyyf54m/";
+      const newContract = new ethers.Contract(contractAddress, abi, signer);
+    
+      // const newContract = new ethers.Contract(contractAddress, abi, signer);
+      let tx;
+  
+      if (tokenAmount) {
+        tx = await newContract.mintToken(await signer.getAddress(), tokenAmount);
+      } else {
+        tx = await newContract.mintToken(await signer.getAddress(), tokenURI);
+      }
+  
+        const receipt = await tx.wait();
+        console.log("receipt", receipt);
+      
+        const tokenId = receipt.events
+        .filter((x: { event: string; args: { tokenId: any } }) => x.event === "Transfer")
+        .map((x: { event: string; args: { tokenId: any } }) => x.args.tokenId)
+        .toString();
+        console.log("Minted Token ID:", tokenId);
+      } else {
+        console.error("Signer is null or undefined.");
+      };
+  
 
     useEffect(() => {
-      if (window.ethereum) {
+      if ((window as any).ethereum) {
         const newProvider = new ethers.providers.Web3Provider(window.ethereum, "any");
         setProvider(newProvider);
         const newSigner = newProvider.getSigner();
@@ -117,13 +121,6 @@ export default function Post({ params }: { params: { slug: [string, string] } })
         console.log("signerAddress is in comments");
       } 
     }, [signer]);
-
-    // const handleAddComment = () => {
-    //   if (comment.trim() !== '') {
-    //     setComments([...comments, comment]);
-    //     setComment('');  // Clear the comment input after adding
-    //   }
-    // };
 
     return (
         <>
