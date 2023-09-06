@@ -12,11 +12,17 @@ import { useRouter } from 'next/navigation';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 
 export default function Home() {
-  const [posts, setPosts] = useState([]);
+  interface Post {
+    uid: string; // Change the type of uid according to your actual data type
+    // Other properties of the Post object
+  }
+  const [posts, setPosts] = useState<Post[]>([]); // Specify the type for posts as Post[]
   const [lang, setLang] = useState("ko");
   const [tab, setTab] = useState("trending");
   const router = useRouter();
   const [search, setSearch] = useState("");
+
+
 
   const items: TabsProps['items'] = [
     { 
@@ -33,11 +39,11 @@ export default function Home() {
     setTab(key);
   };
 
-  const onSearchChange = (e) => {
+  const onSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
 
-  const onSearchButtonClick = (value) => {
+  const onSearchButtonClick = (value: string) => {
     router.push(`/post/${lang}/${value}`);
   };
 
