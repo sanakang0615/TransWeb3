@@ -79,7 +79,7 @@ export default function Home() {
           <Text type="secondary" >
           UNLOCK THE POWER TO ELEVATE GLOBAL ACCESSIBILITY TO <Text type="secondary" keyboard>MULTILINGUAL WEB3 CONTENT</Text>. <br />
           SHARE YOUR TRANSLATIONS WITH US, AND BE REWARDED FOR YOUR CONTRIBUTIONS WITH EXCLUSIVE <Text type="secondary" keyboard>NFT</Text>. <br />
-          WE'LL ALSO ASSIST YOU IN MAKING THEM<Text type="secondary" keyboard>OFFICIAL TRANSLATION DOCUMENTS</Text> FOR OUR FOUNDATION :) <br />
+          WE WILL ALSO ASSIST YOU IN MAKING THEM<Text type="secondary" keyboard>OFFICIAL TRANSLATION DOCUMENTS</Text> FOR OUR FOUNDATION :) <br />
 
           </Text>
           <br />
