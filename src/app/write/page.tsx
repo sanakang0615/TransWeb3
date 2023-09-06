@@ -163,7 +163,10 @@ export default function Write() {
           </Select>
         </Form.Item>
         <Form.Item name="contents" rules={[{ required: true }]}>
-          <MDEditor value={content} onChange={setContent} />
+        <MDEditor
+          value={content}
+          onChange={(newContent) => setContent(newContent || '')}
+        />
         </Form.Item>
       <Form.Item>
       <br />
