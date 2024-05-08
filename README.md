@@ -15,7 +15,7 @@ Received the Sponsor Prize by Polygon in <b>Ethcon 2023</b>, hosted by Ethereum 
 * Contributors can participate by translating content, improving existing translations, and earning NFTs as a form of recognition and potential career advancement within the web3 space.
 
 
-## Build with
+## Built with
 
 - [Next.js](https://nextjs.org/)
 - [Express.js](https://expressjs.com/ko/)
