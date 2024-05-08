@@ -1,14 +1,19 @@
 <p align="center">
-<img src="https://raw.githubusercontent.com/sanakang0615/TransWeb3/main/public/logo.png" width="30%"/>
+  <br/>
+<img src="https://raw.githubusercontent.com/sanakang0615/TransWeb3/main/public/logo_transparent.png" width="45%"/>
 <br/>
 </p>
-<p> Awarded the 🏆 Sponsor Prize by Polygon 🏆 in <b>Ethcon 2023</b>, hosted by Ethereum Foundation. <p/>
+<br/>
 
-## Project Name & Pitch
+## Award Recognition
+🏆 Received the Sponsor Prize by Polygon in <b>Ethcon 2023</b>, hosted by Ethereum Foundation.
+
+## Project Explanation
 
 **TransWeb3 Wiki Project** addresses a significant challenge within the web3 ecosystem — the language barrier faced by approximately 95% of the global population who do not use English as their primary language.
 * Our solution leverages the power of community-driven translations to enhance accessibility and foster broader adoption of web3 technologies.
 * Contributors can participate by translating content, improving existing translations, and earning NFTs as a form of recognition and potential career advancement within the web3 space.
+
 
 ## Build with
 
@@ -56,7 +61,27 @@ To Visit App:
 `localhost:3000/`
 
 ## Project Screenshots
-<figure class="half">
-<!--   <img src="https://github.com/CheddarChoi/uplife/blob/main/uplife_screenshot1.png"/>
-  <img src="https://github.com/CheddarChoi/uplife/blob/main/uplife_screenshot2.png"/> -->
-<figure>
+<p align="center">
+  <table border="0">
+   <tr>
+      <td><img src="https://raw.githubusercontent.com/sanakang0615/TransWeb3/main/public/screenshot_1.png"/></td>
+      <td><img src="https://raw.githubusercontent.com/sanakang0615/TransWeb3/main/public/screenshot_2.png"/></td>
+   </tr>
+    <tr>
+      <td><img src="https://raw.githubusercontent.com/sanakang0615/TransWeb3/main/public/screenshot_3.png"/></td>
+      <td><img src="https://raw.githubusercontent.com/sanakang0615/TransWeb3/main/public/screenshot_4.png"/></td>
+   </tr>
+    <tr>
+      <td><img src="https://raw.githubusercontent.com/sanakang0615/TransWeb3/main/public/screenshot_5.png"/></td>
+      <td><img src="https://raw.githubusercontent.com/sanakang0615/TransWeb3/main/public/screenshot_6.png"/></td>
+   </tr>
+    <tr>
+      <td><img src="https://raw.githubusercontent.com/sanakang0615/TransWeb3/main/public/screenshot_7.png"/></td>
+      <td><img src="https://raw.githubusercontent.com/sanakang0615/TransWeb3/main/public/screenshot_8.png"/></td>
+   </tr>
+    <tr>
+      <td><img src="https://raw.githubusercontent.com/sanakang0615/TransWeb3/main/public/screenshot_9.png"/></td>
+      <td><img src="https://raw.githubusercontent.com/sanakang0615/TransWeb3/main/public/screenshot_10.png"/></td>
+   </tr>
+  </table>
+</p>
