@@ -6,7 +6,7 @@
 <br/>
 
 ## Award Recognition
-🏆 Received the Sponsor Prize by Polygon in <b>Ethcon 2023</b>, hosted by Ethereum Foundation.
+Received the Sponsor Prize by Polygon in <b>Ethcon 2023</b>, hosted by Ethereum Foundation.
 
 ## Project Explanation
 
